@@ -1,0 +1,32 @@
+TASK com.tf.truefeeling id=16
+  ACTIVITY com.tf.truefeeling/.LoginActivity 1cd7a5b pid=2980
+    Local FragmentActivity d1ffea7 State:
+      mCreated=truemResumed=true mStopped=false mReallyStopped=false
+      mLoadersStarted=true
+    FragmentManager misc state:
+      mHost=android.support.v4.app.FragmentActivity$HostCallbacks@62f1c6f
+      mContainer=android.support.v4.app.FragmentActivity$HostCallbacks@62f1c6f
+      mCurState=5 mStateSaved=false mDestroyed=false
+    View Hierarchy:
+      com.android.internal.policy.PhoneWindow$DecorView{9931d7c V.E..... ... 0,0-1080,1920}
+        android.widget.LinearLayout{878605 V.E..... ... 0,0-1080,1776}
+          android.view.ViewStub{167c65a G.E..... ... 0,0-0,0 #10203a9 android:id/action_mode_bar_stub}
+          android.widget.FrameLayout{b3b108b V.E..... ... 0,72-1080,986}
+            android.support.v7.widget.ActionBarOverlayLayout{db29568 V.E..... ... 0,0-1080,914 #7f0c0058 app:id/decor_content_parent}
+              android.support.v7.widget.ContentFrameLayout{4ff7d81 V.E..... ... 0,168-1080,914 #1020002 android:id/content}
+                android.widget.LinearLayout{bcbee26 V.E..... ... 0,0-1080,746}
+                  android.widget.ProgressBar{fc82a67 G.ED.... ... 0,0-0,0 #7f0c0069 app:id/login_progress}
+                  android.widget.ScrollView{7cfa014 VFED.V.. ... 48,48-1032,698 #7f0c006a app:id/login_form}
+                    android.widget.LinearLayout{9a570bd V.E..... ... 0,0-984,530 #7f0c006b app:id/account_login_form}
+                      android.support.design.widget.TextInputLayout{2f8c6b2 V.ED.... ... 0,0-984,169}
+                        android.support.v7.widget.AppCompatAutoCompleteTextView{230603 VFED..CL F.. 0,33-984,169 #7f0c006c app:id/account}
+                      android.support.design.widget.TextInputLayout{410a980 V.ED.... ... 0,169-984,338}
+                        android.support.v7.widget.AppCompatEditText{7bd5bb9 VFED..CL ... 0,33-984,169 #7f0c006d app:id/password}
+                      android.support.v7.widget.AppCompatButton{7a89bfe VFED..C. ... 0,386-984,530 #7f0c006f app:id/account_sign_in_button}
+              android.support.v7.widget.ActionBarContainer{6c5ff5f V.ED.... ... 0,0-1080,168 #7f0c0059 app:id/action_bar_container}
+                android.support.v7.widget.Toolbar{896ddac V.E..... ... 0,0-1080,168 #7f0c005a app:id/action_bar}
+                  android.widget.TextView{ecefa75 V.ED.... ... 48,43-361,124}
+                  android.support.v7.widget.ActionMenuView{9ee7a0a V.E..... ... 1080,0-1080,168}
+                android.support.v7.widget.ActionBarContextView{175327b G.E..... ... 0,0-0,0 #7f0c005b app:id/action_context_bar}
+        android.view.View{a6a2898 V.ED.... ... 0,1776-1080,1920 #1020030 android:id/navigationBarBackground}
+        android.view.View{521c8f1 V.ED.... ... 0,0-1080,72 #102002f android:id/statusBarBackground}
