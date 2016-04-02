@@ -2,8 +2,9 @@
     xmlns:iosched="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_actionbar"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
+    android:layout_height="40dp"
     iosched:theme="@style/ActionBar.MainAcitonBar">
+
     <TextView
         android:id="@+id/toolbar"
         android:layout_width="wrap_content"
@@ -12,6 +13,6 @@
         android:typeface="sans"
         android:textSize="14dp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:singleLine="true" />
 </android.support.v7.widget.Toolbar>

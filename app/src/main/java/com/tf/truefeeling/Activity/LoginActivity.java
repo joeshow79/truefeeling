@@ -1,4 +1,4 @@
-package com.tf.truefeeling;
+package com.tf.truefeeling.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -38,6 +38,7 @@ import java.util.List;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
+import com.tf.truefeeling.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 

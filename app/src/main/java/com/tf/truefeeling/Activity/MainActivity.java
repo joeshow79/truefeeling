@@ -1,4 +1,4 @@
-package com.tf.truefeeling;
+package com.tf.truefeeling.Activity;
 
 import android.content.Context;
 import android.support.design.widget.TabLayout;
@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.tf.truefeeling.R;
 
 public class MainActivity extends AppCompatActivity {
 
