@@ -6,10 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.tf.truefeeling"
-        minSdkVersion 15
+        minSdkVersion 18
         targetSdkVersion 23
-        versionCode 1
+        versionCode 16
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
