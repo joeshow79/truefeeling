@@ -1,6 +1,11 @@
 package com.tf.truefeeling.Activity;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Context;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -16,12 +21,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tf.truefeeling.Fragment.BLEConnectionFragment;
+import com.tf.truefeeling.Fragment.StatusFragment;
+import com.tf.truefeeling.Model.BLEDeviceContent;
+import com.tf.truefeeling.Fragment.dummy.StatusContent;
+import com.tf.truefeeling.Model.LeDeviceList;
 import com.tf.truefeeling.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, BluetoothAdapter.LeScanCallback {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
+
+    private Handler mHandler = new Handler();
+    private BluetoothAdapter mBluetoothAdapter;
+    private BluetoothLeScanner mBluetoothLeScanner;
+    private BluetoothManager mBluetoothManager;
+
+    private boolean mScanning;
+    private static final long SCAN_PERIOD = 10000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-        viewPager = (ViewPager)findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
         SampleFragmentPagerAdapter pagerAdapter =
@@ -59,8 +78,71 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
 
+        mBluetoothManager = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE));
+        mBluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        scanLeDevice(true);
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        scanLeDevice(false);
+    }
+
+    @Override
+    public void onListFragmentInteraction(StatusContent.DummyItem item) {
+    }
+
+    @Override
+    public void onListFragmentInteraction(BLEDeviceContent.BLEDeviceItem item) {
+    }
+
+    @Override
+    public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+        if (device != null && device.getName() != null
+                /*& device.getName().equals("MI")*/) {
+            System.out.println(device.getAddress());
+            System.out.println(device.getName());
+            //scanLeDevice(false); // we only care about one miband so that's enough
+
+            BLEDeviceContent.listItems.add(device.getName(), device.getAddress());
+
+            //JJ
+            /*Intent intent = new Intent(getApplicationContext(), MiOverviewActivity.class);
+            intent.putExtra("address", device.getAddress());
+            startActivity(intent);*/
+        }
+    }
+
+    private void scanLeDevice(final boolean enable) {
+        if (enable) {
+            //mTextView.setText(R.string.looking_for_miband);
+            // Stops scanning after a pre-defined scan period.
+            mHandler.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mScanning = false;
+                    mBluetoothAdapter.stopLeScan(MainActivity.this);
+                    //mTextView.setText(R.string.not_found);
+                }
+            }, SCAN_PERIOD);
+
+            mScanning = true;
+            mBluetoothAdapter.startLeScan(this);
+        } else {
+            mScanning = false;
+            mBluetoothAdapter.stopLeScan(this);
+        }
     }
 
 
@@ -68,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
         final int PAGE_COUNT = 3;
 
         private Context context;
-        private String tabTitles[] = new String[]{getApplicationContext().getResources().getString(R.string.tab_connection),getApplicationContext().getResources().getString(R.string.tab_status),getApplicationContext().getResources().getString(R.string.tab_profile)};
-        private int drawId[]=new int[]{R.drawable.main_tab_connection,R.drawable.main_tab_status,R.drawable.main_tab_profile};
+        private String tabTitles[] = new String[]{getApplicationContext().getResources().getString(R.string.tab_connection), getApplicationContext().getResources().getString(R.string.tab_status), getApplicationContext().getResources().getString(R.string.tab_profile)};
+        private int drawId[] = new int[]{R.drawable.main_tab_connection, R.drawable.main_tab_status, R.drawable.main_tab_profile};
 
         public View getTabView(int position) {
             View v = LayoutInflater.from(context).inflate(R.layout.custom_tab, null);
@@ -94,6 +176,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+            if (0 == position) {
+                return BLEConnectionFragment.newInstance(1);
+            }
+            if (1 == position) {
+                return StatusFragment.newInstance(1);
+            }
+
             return PageFragment.newInstance(position + 1);
         }
 
@@ -133,4 +222,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-

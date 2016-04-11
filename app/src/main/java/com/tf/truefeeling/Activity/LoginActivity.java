@@ -343,6 +343,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     } else {
                         log("登录成功 user：" + avUser.toString());
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        //startActivity(new Intent(LoginActivity.this, MiActivity.class));
                     }
                 }
             });

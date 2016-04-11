@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.tf.truefeeling.Model.BLEDeviceContent;
+import com.tf.truefeeling.Model.LeDeviceList;
 import com.tf.truefeeling.R;
 
 public class MiActivity extends Activity implements LeScanCallback {
@@ -25,7 +27,7 @@ public class MiActivity extends Activity implements LeScanCallback {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().hide();
+		//getActionBar().hide();
 		setContentView(R.layout.activity_mi);
 		mTextView = (TextView) findViewById(R.id.text_search);
 		mBluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE))
@@ -35,6 +37,9 @@ public class MiActivity extends Activity implements LeScanCallback {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		BLEDeviceContent.listItems.clear();
+
 		scanLeDevice(true);
 	}
 
@@ -65,8 +70,12 @@ public class MiActivity extends Activity implements LeScanCallback {
 	@Override
 	public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
 		if (device != null && device.getName() != null
-				& device.getName().equals("MI")) {
+				/*& device.getName().equals("MI")*/) {
 			System.out.println(device.getAddress());
+			System.out.println(device.getName());
+
+			BLEDeviceContent.listItems.add(device.getName(), device.getAddress());
+
 			scanLeDevice(false); // we only care about one miband so that's
 									// enough
 			Intent intent = new Intent(getApplicationContext(), MiOverviewActivity.class);

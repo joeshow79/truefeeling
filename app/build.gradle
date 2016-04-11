@@ -59,7 +59,7 @@ dependencies {
 
     //avoscloud-search 为 LeanCloud 应用内搜索包
     compile ('cn.leancloud.android:avoscloud-search:v3.+@aar')
-    
+
 
     compile('com.android.support:appcompat-v7:23.2.1')
     compile('com.android.support:design:23.2.1')
