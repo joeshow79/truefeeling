@@ -6,12 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.tf.truefeeling.Model.BLEMediator;
 import com.tf.truefeeling.Fragment.StatusFragment.OnListFragmentInteractionListener;
 import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import com.tf.truefeeling.R;
+import com.tf.truefeeling.Util.Log;
 
 
 /**
@@ -19,14 +23,18 @@ import com.tf.truefeeling.R;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusItemRecyclerViewAdapter.ViewHolder> {
+public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusItemRecyclerViewAdapter.ViewHolder> implements Observer {
 
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
+    private String TAG="StatusItemRecyclerViewAdapter";
+
     public StatusItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+
+        BLEMediator.getInstance().getmMiBand().addObserver(this);
     }
 
     @Override
@@ -38,6 +46,11 @@ public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusIt
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder ----------------------------------->");
+        Log.d(TAG, String.valueOf(BLEMediator.getInstance().getmMiBand().mSteps));
+//        Log.d(TAG, String.valueOf(BLEMediator.getInstance().getmMiBand().mBattery));
+
+
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).content);
@@ -76,5 +89,19 @@ public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusIt
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "----------------------------------->");
+                mValues.clear();
+                mValues.add(new DummyItem("Step:", String.valueOf(BLEMediator.getInstance().getmMiBand().mSteps)));
+//                mValues.add(new DummyItem("Battery:",String.valueOf(BLEMediator.getInstance().getmMiBand().mBattery.mBatteryLevel)));
+                //mValues.add(new DummyItem("Battery:",String.valueOf(BLEMediator.getInstance().getmMiBand().mBattery)));
+            }
+        }.run();
     }
 }

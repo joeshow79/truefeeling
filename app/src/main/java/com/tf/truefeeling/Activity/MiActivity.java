@@ -74,7 +74,7 @@ public class MiActivity extends Activity implements LeScanCallback {
 			System.out.println(device.getAddress());
 			System.out.println(device.getName());
 
-			BLEDeviceContent.listItems.add(device.getName(), device.getAddress());
+			BLEDeviceContent.listItems.add(device);
 
 			scanLeDevice(false); // we only care about one miband so that's
 									// enough

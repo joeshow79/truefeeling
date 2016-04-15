@@ -28,7 +28,8 @@ public class StatusContent {
     static {
         // Add some sample items.
         for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
+
+        //     addItem(createDummyItem(i));
         }
     }
 
@@ -57,7 +58,7 @@ public class StatusContent {
             default:
                 break;
         }
-        return new DummyItem(id, value, makeDetails(position));
+        return new DummyItem(id, value/*, makeDetails(position)*/);
     }
 
     private static String makeDetails(int position) {
@@ -75,12 +76,12 @@ public class StatusContent {
     public static class DummyItem {
         public final String id;
         public final String content;
-        public final String details;
+        //public final String details;
 
-        public DummyItem(String id, String content, String details) {
+        public DummyItem(String id, String content/*, String details*/) {
             this.id = id;
             this.content = content;
-            this.details = details;
+            //this.details = details;
         }
 
         @Override

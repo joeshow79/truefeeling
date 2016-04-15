@@ -1,5 +1,7 @@
 package com.tf.truefeeling.Model;
 
+import android.bluetooth.BluetoothDevice;
+
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -8,10 +10,10 @@ import java.util.Observable;
  */
 public class LeDeviceList extends Observable {
     private static LeDeviceList dl=null;
-    private static ArrayList<BLEDeviceContent.BLEDeviceItem> dlList;
+    private static ArrayList<BluetoothDevice> dlList;
 
     private LeDeviceList(){
-        dlList=new ArrayList<BLEDeviceContent.BLEDeviceItem>();
+        dlList=new ArrayList<BluetoothDevice>();
     }
 
     public static LeDeviceList getInstance(){
@@ -22,28 +24,28 @@ public class LeDeviceList extends Observable {
         return dl;
     }
 
-    public void add(BLEDeviceContent.BLEDeviceItem item){
-        for(BLEDeviceContent.BLEDeviceItem it: dlList){
+    public void add(BluetoothDevice item){
+        for(BluetoothDevice it: dlList){
 
-            if(it.addr.equals(item.addr)){
+            if(it.getAddress().equals(item.getAddress())){
                 return;    //keep the list unik
             }
         }
         dlList.add(item);
     }
 
-   public void add(String name,String addr){
-       for(BLEDeviceContent.BLEDeviceItem it: dlList){
+   public void add(String name,BluetoothDevice item){
+       for(BluetoothDevice it: dlList){
 
-           if(it.addr.equals(addr)){
+           if(it.getAddress().equals(item.getAddress())){
                return;    //keep the list uniq
            }
 
        }
-        dlList.add(new BLEDeviceContent.BLEDeviceItem(name,addr));
+        dlList.add(item);
     }
 
-    public BLEDeviceContent.BLEDeviceItem get(int position){
+    public BluetoothDevice get(int position){
         return dlList.get(position);
     }
 
@@ -55,7 +57,7 @@ public class LeDeviceList extends Observable {
         dlList.clear();
     }
 
-    public ArrayList<BLEDeviceContent.BLEDeviceItem> getAll(){
+    public ArrayList<BluetoothDevice> getAll(){
         return dlList;
     }
 }

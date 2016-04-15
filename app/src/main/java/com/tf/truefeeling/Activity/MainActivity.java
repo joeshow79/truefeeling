@@ -22,13 +22,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tf.truefeeling.Fragment.BLEConnectionFragment;
-import com.tf.truefeeling.Fragment.StatusFragment;
-import com.tf.truefeeling.Model.BLEDeviceContent;
-import com.tf.truefeeling.Fragment.dummy.StatusContent;
+import com.tf.truefeeling.Model.BLEMediator;
 import com.tf.truefeeling.Model.LeDeviceList;
+import com.tf.truefeeling.Fragment.StatusFragment;
+import com.tf.truefeeling.Fragment.dummy.StatusContent;
 import com.tf.truefeeling.R;
+import com.tf.truefeeling.Util.Log;
 
-public class MainActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, BluetoothAdapter.LeScanCallback {
+public class MainActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, BLEMediator.LeScanListener/*, BluetoothAdapter.LeScanCallback */ {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
 
     private boolean mScanning;
     private static final long SCAN_PERIOD = 10000;
-
+    private String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,20 +83,24 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
 
         mBluetoothManager = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE));
         mBluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
-
     }
 
     @Override
     public void onResume() {
-        super.onResume();
-        scanLeDevice(true);
-    }
+        Log.d(TAG, "onResume----------------------------------->");
 
+        super.onResume();
+        //scanLeDevice(true);
+        BLEMediator.getInstance().openBluetooth();
+        BLEMediator.getInstance().startScanLeDevice(this);
+    }
 
     @Override
     public void onPause() {
         super.onPause();
-        scanLeDevice(false);
+        //scanLeDevice(false);
+        BLEMediator.getInstance().disconnectGATT();
+        BLEMediator.getInstance().stopScanLeDevice();
     }
 
     @Override
@@ -103,51 +108,23 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
     }
 
     @Override
-    public void onListFragmentInteraction(BLEDeviceContent.BLEDeviceItem item) {
+    public void onListFragmentInteraction(BluetoothDevice item) {
+        Log.d(TAG, "----------------------------------->");
+        /*Intent intent = new Intent(getApplicationContext(), MiOverviewActivity.class);
+        intent.putExtra("address", item.getAddress());
+        startActivity(intent);*/
+
+        BLEMediator.getInstance().connectGATT(item.getAddress());
     }
 
     @Override
-    public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-        if (device != null && device.getName() != null
-                /*& device.getName().equals("MI")*/) {
-            System.out.println(device.getAddress());
-            System.out.println(device.getName());
-            //scanLeDevice(false); // we only care about one miband so that's enough
-
-            BLEDeviceContent.listItems.add(device.getName(), device.getAddress());
-
-            //JJ
-            /*Intent intent = new Intent(getApplicationContext(), MiOverviewActivity.class);
-            intent.putExtra("address", device.getAddress());
-            startActivity(intent);*/
-        }
+    public void leScanCallBack(LeDeviceList l) {
+        //TODO
     }
-
-    private void scanLeDevice(final boolean enable) {
-        if (enable) {
-            //mTextView.setText(R.string.looking_for_miband);
-            // Stops scanning after a pre-defined scan period.
-            mHandler.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    mScanning = false;
-                    mBluetoothAdapter.stopLeScan(MainActivity.this);
-                    //mTextView.setText(R.string.not_found);
-                }
-            }, SCAN_PERIOD);
-
-            mScanning = true;
-            mBluetoothAdapter.startLeScan(this);
-        } else {
-            mScanning = false;
-            mBluetoothAdapter.stopLeScan(this);
-        }
-    }
-
 
     public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
         final int PAGE_COUNT = 3;
+        private String TAG = "SampleFragmentPagerAdapter";
 
         private Context context;
         private String tabTitles[] = new String[]{getApplicationContext().getResources().getString(R.string.tab_connection), getApplicationContext().getResources().getString(R.string.tab_status), getApplicationContext().getResources().getString(R.string.tab_profile)};
@@ -220,5 +197,4 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
             return view;
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package com.tf.truefeeling.Fragment;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import com.tf.truefeeling.R;
 import com.tf.truefeeling.Model.BLEDeviceContent;
 import com.tf.truefeeling.Model.BLEDeviceContent.BLEDeviceItem;
+import com.tf.truefeeling.Util.Log;
 
 /**
  * A fragment representing a list of Items.
@@ -27,6 +29,7 @@ public class BLEConnectionFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
+    private String TAG="BLEConnectionFragment";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,11 +61,8 @@ public class BLEConnectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bleconnection_list, container, false);
-        System.out.println("------------------------------------->");
-        System.out.println("------------------------------------->");
-        System.out.println("------------------------------------->");
-        System.out.println("------------------------------------->");
-        System.out.println("------------------------------------->");
+        Log.d(TAG, "------------------------------------->");
+        Log.d(TAG, "------------------------------------->");
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -73,7 +73,10 @@ public class BLEConnectionFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new BLEConnectionRecyclerViewAdapter(BLEDeviceContent.listItems, mListener));
+
+            BLEConnectionRecyclerViewAdapter adapter=new BLEConnectionRecyclerViewAdapter(BLEDeviceContent.listItems, mListener);
+
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }
@@ -108,6 +111,6 @@ public class BLEConnectionFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(BLEDeviceItem item);
+        void onListFragmentInteraction(BluetoothDevice item);
     }
 }

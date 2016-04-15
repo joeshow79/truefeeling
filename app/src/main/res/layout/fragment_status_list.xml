@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.tf.truefeeling.Fragment.StatusFragment"
+    tools:context=".Fragment.StatusFragment"
     tools:listitem="@layout/fragment_status" />
