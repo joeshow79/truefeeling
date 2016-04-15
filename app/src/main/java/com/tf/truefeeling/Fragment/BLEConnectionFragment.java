@@ -12,8 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tf.truefeeling.R;
-import com.tf.truefeeling.Model.BLEDeviceContent;
-import com.tf.truefeeling.Model.BLEDeviceContent.BLEDeviceItem;
+import com.tf.truefeeling.model.BLEDeviceContent;
 import com.tf.truefeeling.Util.Log;
 
 /**
@@ -61,8 +60,6 @@ public class BLEConnectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bleconnection_list, container, false);
-        Log.d(TAG, "------------------------------------->");
-        Log.d(TAG, "------------------------------------->");
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -74,7 +71,7 @@ public class BLEConnectionFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            BLEConnectionRecyclerViewAdapter adapter=new BLEConnectionRecyclerViewAdapter(BLEDeviceContent.listItems, mListener);
+            BLEConnectionRecyclerViewAdapter adapter=new BLEConnectionRecyclerViewAdapter(/*BLEDeviceContent.listItems,*/ mListener);
 
             recyclerView.setAdapter(adapter);
         }

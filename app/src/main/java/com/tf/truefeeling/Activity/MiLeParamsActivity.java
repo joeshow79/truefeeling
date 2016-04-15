@@ -4,7 +4,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
-import com.tf.truefeeling.Model.LeParams;
+import com.tf.truefeeling.model.LeParams;
 
 public class MiLeParamsActivity extends ListActivity {
 

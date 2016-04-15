@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Model;
+package com.tf.truefeeling.model;
 
 import android.bluetooth.BluetoothDevice;
 

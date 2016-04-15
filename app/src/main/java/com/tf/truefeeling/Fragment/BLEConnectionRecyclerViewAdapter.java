@@ -8,25 +8,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tf.truefeeling.Fragment.BLEConnectionFragment.OnListFragmentInteractionListener;
-import com.tf.truefeeling.Model.LeDeviceList;
+import com.tf.truefeeling.model.BLEDeviceContent;
 import com.tf.truefeeling.R;
-import com.tf.truefeeling.Model.BLEDeviceContent.BLEDeviceItem;
-
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link BLEDeviceItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class BLEConnectionRecyclerViewAdapter extends RecyclerView.Adapter<BLEConnectionRecyclerViewAdapter.ViewHolder>{
+public class BLEConnectionRecyclerViewAdapter extends RecyclerView.Adapter<BLEConnectionRecyclerViewAdapter.ViewHolder> {
 
-    private final LeDeviceList mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public BLEConnectionRecyclerViewAdapter(LeDeviceList items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public BLEConnectionRecyclerViewAdapter(/*LeDeviceList items, */OnListFragmentInteractionListener listener) {
         mListener = listener;
     }
 
@@ -39,9 +33,15 @@ public class BLEConnectionRecyclerViewAdapter extends RecyclerView.Adapter<BLECo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getName());
-        holder.mContentView.setText(mValues.get(position).getAddress());
+        if (0 == position && (BLEDeviceContent.pairedDeviceAddr != null)) {
+            holder.mIdView.setText("Paired Device");
+            holder.mContentView.setText(BLEDeviceContent.pairedDeviceAddr);
+        }
+        else{
+            holder.mItem = BLEDeviceContent.listItems.get(position);
+            holder.mIdView.setText(BLEDeviceContent.listItems.get(position).getName());
+            holder.mContentView.setText(BLEDeviceContent.listItems.get(position).getAddress());
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,9 +55,9 @@ public class BLEConnectionRecyclerViewAdapter extends RecyclerView.Adapter<BLECo
         });
     }
 
-      @Override
+    @Override
     public int getItemCount() {
-        return mValues.size();
+        return BLEDeviceContent.listItems.size() + (BLEDeviceContent.pairedDeviceAddr == null ? 0 : 1);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

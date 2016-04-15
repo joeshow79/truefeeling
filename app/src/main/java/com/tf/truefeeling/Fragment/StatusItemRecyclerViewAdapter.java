@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tf.truefeeling.Model.BLEMediator;
 import com.tf.truefeeling.Fragment.StatusFragment.OnListFragmentInteractionListener;
 import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
 
@@ -16,6 +15,7 @@ import java.util.Observer;
 
 import com.tf.truefeeling.R;
 import com.tf.truefeeling.Util.Log;
+import com.tf.truefeeling.model.MiBandData;
 
 
 /**
@@ -28,13 +28,14 @@ public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusIt
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    private String TAG="StatusItemRecyclerViewAdapter";
+    private String TAG = "StatusItemRecyclerViewAdapter";
 
     public StatusItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
 
-        BLEMediator.getInstance().getmMiBand().addObserver(this);
+        //BLEMediator_tbd.getInstance().getMiBand().addObserver(this);
+        MiBandData.getInstance().addObserver(this);
     }
 
     @Override
@@ -47,8 +48,8 @@ public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusIt
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder ----------------------------------->");
-        Log.d(TAG, String.valueOf(BLEMediator.getInstance().getmMiBand().mSteps));
-//        Log.d(TAG, String.valueOf(BLEMediator.getInstance().getmMiBand().mBattery));
+        //Log.d(TAG, String.valueOf(BLEMediator_tbd.getInstance().getmMiBand().mSteps));
+//        Log.d(TAG, String.valueOf(BLEMediator_tbd.getInstance().getmMiBand().mBattery));
 
 
         holder.mItem = mValues.get(position);
@@ -93,15 +94,17 @@ public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusIt
 
     @Override
     public void update(Observable observable, Object data) {
-        new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "----------------------------------->");
-                mValues.clear();
-                mValues.add(new DummyItem("Step:", String.valueOf(BLEMediator.getInstance().getmMiBand().mSteps)));
-//                mValues.add(new DummyItem("Battery:",String.valueOf(BLEMediator.getInstance().getmMiBand().mBattery.mBatteryLevel)));
-                //mValues.add(new DummyItem("Battery:",String.valueOf(BLEMediator.getInstance().getmMiBand().mBattery)));
-            }
-        }.run();
+        mValues.clear();
+        mValues.add(new DummyItem("Step:", String.valueOf(MiBandData.getInstance().mSteps)));
+//        new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d(TAG, "----------------------------------->");
+//                mValues.clear();
+//                mValues.add(new DummyItem("Step:", String.valueOf(MiBandData.getInstance().mSteps)));
+////                mValues.add(new DummyItem("Battery:",String.valueOf(BLEMediator_tbd.getInstance().getmMiBand().mBattery.mBatteryLevel)));
+//                //mValues.add(new DummyItem("Battery:",String.valueOf(BLEMediator_tbd.getInstance().getmMiBand().mBattery)));
+//            }
+//        }.run();
     }
 }

@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,15 +22,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tf.truefeeling.ActionCallback;
 import com.tf.truefeeling.Fragment.BLEConnectionFragment;
-import com.tf.truefeeling.Model.BLEMediator;
-import com.tf.truefeeling.Model.LeDeviceList;
+import com.tf.truefeeling.MiBand;
+import com.tf.truefeeling.listener.RealtimeStepsNotifyListener;
+import com.tf.truefeeling.listener.NotifyListener;
+import com.tf.truefeeling.TFApplication;
+import com.tf.truefeeling.bluetooth.MiBandWrapper;
+import com.tf.truefeeling.bluetooth.NotificationConstants;
 import com.tf.truefeeling.Fragment.StatusFragment;
 import com.tf.truefeeling.Fragment.dummy.StatusContent;
 import com.tf.truefeeling.R;
 import com.tf.truefeeling.Util.Log;
+import com.tf.truefeeling.model.BLEDeviceContent;
+import com.tf.truefeeling.model.MiBandData;
 
-public class MainActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, BLEMediator.LeScanListener/*, BluetoothAdapter.LeScanCallback */ {
+public class MainActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, NotifyListener/*, BLEMediator_tbd.LeScanListener, BluetoothAdapter.LeScanCallback */ {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -38,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeScanner mBluetoothLeScanner;
     private BluetoothManager mBluetoothManager;
+
+    private MiBand miBand;
+    private boolean isConnected = false;
+    private int BT_REQUEST_CODE = 1001;
 
     private boolean mScanning;
     private static final long SCAN_PERIOD = 10000;
@@ -81,26 +93,141 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
 
         viewPager.setCurrentItem(0);
 
-        mBluetoothManager = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE));
-        mBluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+        miBand = MiBand.getInstance();
+
     }
 
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume----------------------------------->");
-
         super.onResume();
-        //scanLeDevice(true);
-        BLEMediator.getInstance().openBluetooth();
-        BLEMediator.getInstance().startScanLeDevice(this);
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            if (b.getBoolean("service", false)) {
+                //stopService(new Intent(MainActivity.this, MainActivity.class));
+            } else {
+                connectToMiBand();
+            }
+        } else {
+            connectToMiBand();
+        }
+
+        isConnected = miBand.isConnected();
+
+        Log.d(TAG, "onResume: miBand.isConnected(): " + String.valueOf(isConnected));
+
+        if (isConnected) {
+        } else {
+        }
     }
 
     @Override
     public void onPause() {
+        MiBandWrapper.getInstance(MainActivity.this).sendAction(MiBandWrapper.ACTION_DISCONNECT);
+
         super.onPause();
-        //scanLeDevice(false);
-        BLEMediator.getInstance().disconnectGATT();
-        BLEMediator.getInstance().stopScanLeDevice();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MiBandWrapper.getInstance(MainActivity.this).sendAction(MiBandWrapper.ACTION_STOP_SYNC);
+    }
+
+
+    private void connectToMiBand() {
+        Log.d(TAG, "connectToMiBand");
+
+        if (!miBand.isConnected()) {
+            miBand.connect(myConnectionCallback);
+        }
+    }
+
+    private ActionCallback myConnectionCallback = new ActionCallback() {
+        @Override
+        public void onSuccess(Object data) {
+            Log.d(TAG, "Connected with Mi Band!");
+
+            isConnected = true;
+
+            //miBand.getStepData();
+            //miBand.setRealtimeStepsNotifyListener(MainActivity.this);
+            miBand.setDisconnectedListener(MainActivity.this);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+//                    startMiBand();
+                }
+            });
+        }
+
+        @Override
+        public void onFail(int errorCode, String msg) {
+            Log.e(TAG, "Fail: " + msg);
+            isConnected = false;
+
+            if (errorCode == NotificationConstants.BLUETOOTH_OFF) {
+                //turn on bluetooth
+                Log.d(TAG, "turn on Bluetooth");
+                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), BT_REQUEST_CODE, null);
+            } else {
+                Log.d(TAG, "not found");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            }
+        }
+    };
+
+//    private void disconnectMiBand() {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+//                MainNormalActivity.this);
+//
+//        // set title
+//        alertDialogBuilder.setTitle("Disconnect to Mi Band");
+//
+//        // set dialog message
+//        alertDialogBuilder
+//                .setMessage("Are you sure you want to Disconnect to your Mi Band?")
+//                .setCancelable(false)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        miBand.disconnect();
+//                        stopMiBand();
+//                    }
+//                })
+//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        // if this button is clicked, just close
+//                        // the dialog box and do nothing
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//        // create alert dialog
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//        // show it
+//        alertDialog.show();
+//    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == BT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                connectToMiBand();
+                //btn_connect.setEnabled(false);
+
+                //textView_status.setText("Connecting...");
+            } else {
+//                stopMiBand();
+            }
+        }
     }
 
     @Override
@@ -110,17 +237,29 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
     @Override
     public void onListFragmentInteraction(BluetoothDevice item) {
         Log.d(TAG, "----------------------------------->");
-        /*Intent intent = new Intent(getApplicationContext(), MiOverviewActivity.class);
+        /*Intent intent = new Intent(getApplicationContext(), MiOverviewActivity_tbd.class);
         intent.putExtra("address", item.getAddress());
         startActivity(intent);*/
 
-        BLEMediator.getInstance().connectGATT(item.getAddress());
+        //BLEMediator_tbd.getInstance().connectGATT(item.getAddress());
+
+        if (!miBand.isConnected()) {
+            miBand.connect(item.getAddress(),myConnectionCallback);
+        }
     }
 
     @Override
+    public void onNotify(byte [] data) {
+        Log.d(TAG, "onNotify: TODO to reconnect");
+        //MiBandData.getInstance().setSteps(steps);
+
+        connectToMiBand();
+    }
+
+    /*@Override
     public void leScanCallBack(LeDeviceList l) {
         //TODO
-    }
+    }*/
 
     public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
         final int PAGE_COUNT = 3;

@@ -20,7 +20,7 @@ import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class StatusFragment extends Fragment /*implements Observer */ {
+public class StatusFragment extends Fragment/*implements Observer */ {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
