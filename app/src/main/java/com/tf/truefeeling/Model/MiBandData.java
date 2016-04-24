@@ -3,6 +3,7 @@ package com.tf.truefeeling.model;
 import java.util.Observable;
 
 import com.tf.truefeeling.MiBand;
+import com.tf.truefeeling.Util.Log;
 import com.tf.truefeeling.listener.RealtimeStepsNotifyListener;
 
 
@@ -13,6 +14,7 @@ public class MiBandData extends Observable  implements RealtimeStepsNotifyListen
 	public String mName;
 	public Battery mBattery;
 	public LeParams mLeParams;
+	private String TAG="MiBandData";
 
 	public static MiBandData mInstance=null;
 
@@ -35,7 +37,7 @@ public class MiBandData extends Observable  implements RealtimeStepsNotifyListen
 	
 	public void setSteps(int steps) {
 		mSteps = steps;
-		//L.i("setting "+steps+" steps");
+		Log.d(TAG, "setting " + steps + " steps");
 		setChanged();
 		notifyObservers();
 	}

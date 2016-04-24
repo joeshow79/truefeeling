@@ -12,6 +12,7 @@ import com.tf.truefeeling.bluetooth.BTCommandManager;
 import com.tf.truefeeling.bluetooth.BTConnectionManager;
 import com.tf.truefeeling.bluetooth.MiBandWrapper;
 import com.tf.truefeeling.bluetooth.NotificationConstants;
+import com.tf.truefeeling.bluetooth.ReadAction;
 import com.tf.truefeeling.bluetooth.WaitAction;
 import com.tf.truefeeling.bluetooth.WriteAction;
 import com.tf.truefeeling.colorpicker.ColorPickerDialog;
@@ -42,6 +43,25 @@ public class MiBand {
     private static BTConnectionManager btConnectionManager;
     private ActionCallback connectionCallback;
 
+    private final ActionCallback readCallback = new ActionCallback() {
+        @Override
+        public void onSuccess(Object data) {
+            BluetoothGattCharacteristic characteristic = (BluetoothGattCharacteristic) data;
+
+            Log.e(TAG, "ActionCallback, readCallback onSuccess: " + Arrays.toString(characteristic.getValue()));
+            byte[] stepData=characteristic.getValue();
+            if (stepData.length == 4) {
+                int steps = stepData[3] << 24 | (stepData[2] & 0xFF) << 16 | (stepData[1] & 0xFF) << 8 | (stepData[0] & 0xFF);
+                MiBandData.getInstance().setSteps(steps);
+            }
+        }
+
+        @Override
+        public void onFail(int errorCode, String msg) {
+            Log.e(TAG, "ActionCallback, readCallback err: " + errorCode + " msg:" + msg);
+        }
+    };
+
     //public MiBand(final Context context) {
     public MiBand() {
         MiBand.context = TFApplication.getAppContext();
@@ -55,7 +75,10 @@ public class MiBand {
                 //only once we are paired, we create the BluetoothIO object to communicate with Mi Band
                 io = new BTCommandManager(context, btConnectionManager.getGatt());
                 btConnectionManager.setIo(io);
+
                 MiBand.getInstance().setRealtimeStepsNotifyListener(MiBandData.getInstance());
+
+                readStepData();
 
                 //JJ TODO
                 //setUserInfo(UserInfo.getSavedUser(context));
@@ -77,8 +100,6 @@ public class MiBand {
     public synchronized static MiBand getInstance(/*Context context*/) {
         if (instance == null) {
             instance = new MiBand();
-        } else {
-            MiBand.context = context;
         }
 
         return instance;
@@ -471,6 +492,14 @@ public class MiBand {
         byte[] colors = convertRgb(flashColour);
         list.add(new WriteAction(Profile.UUID_CHAR_CONTROL_POINT, Protocol.VIBRATION_WITHOUT_LED));
         list.add(new WriteAction(Profile.UUID_CHAR_CONTROL_POINT, colors));
+        queue(list);
+    }
+
+    public void readStepData(){
+        List<BLEAction> list = new ArrayList<>();
+
+        list.add(new WaitAction(2000));
+        list.add(new ReadAction(Profile.UUID_CHAR_REALTIME_STEPS,readCallback));
         queue(list);
     }
 

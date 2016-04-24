@@ -21,7 +21,7 @@ import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class StatusFragment extends Fragment/*implements Observer */ {
+public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -34,13 +34,13 @@ public class StatusFragment extends Fragment/*implements Observer */ {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public StatusFragment() {
+    public SlidingUpStatusFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static StatusFragment newInstance(int columnCount) {
-        StatusFragment fragment = new StatusFragment();
+    public static SlidingUpStatusFragment newInstance(int columnCount) {
+        SlidingUpStatusFragment fragment = new SlidingUpStatusFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -62,8 +62,11 @@ public class StatusFragment extends Fragment/*implements Observer */ {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_status_list, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_sliding_up_status, container, false);
+        mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout);
+        mLayout.setAnchorPoint(0.6f);
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+/*
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -74,7 +77,7 @@ public class StatusFragment extends Fragment/*implements Observer */ {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new StatusItemRecyclerViewAdapter(StatusContent.ITEMS, mListener));
-        }
+        }*/
         return view;
     }
 
@@ -82,12 +85,12 @@ public class StatusFragment extends Fragment/*implements Observer */ {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
+      /*  if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
-        }
+        }*/
     }
 
     @Override

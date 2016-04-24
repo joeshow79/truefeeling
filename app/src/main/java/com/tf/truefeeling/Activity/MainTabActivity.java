@@ -6,39 +6,34 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
-import android.support.v7.app.AppCompatActivity;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tf.truefeeling.ActionCallback;
 import com.tf.truefeeling.Fragment.BLEConnectionFragment;
-import com.tf.truefeeling.MiBand;
-import com.tf.truefeeling.listener.RealtimeStepsNotifyListener;
-import com.tf.truefeeling.listener.NotifyListener;
-import com.tf.truefeeling.TFApplication;
-import com.tf.truefeeling.bluetooth.MiBandWrapper;
-import com.tf.truefeeling.bluetooth.NotificationConstants;
+import com.tf.truefeeling.Fragment.SlidingUpStatusFragment;
 import com.tf.truefeeling.Fragment.StatusFragment;
 import com.tf.truefeeling.Fragment.dummy.StatusContent;
+import com.tf.truefeeling.MiBand;
 import com.tf.truefeeling.R;
 import com.tf.truefeeling.Util.Log;
-import com.tf.truefeeling.model.BLEDeviceContent;
-import com.tf.truefeeling.model.MiBandData;
+import com.tf.truefeeling.bluetooth.MiBandWrapper;
+import com.tf.truefeeling.bluetooth.NotificationConstants;
+import com.tf.truefeeling.listener.NotifyListener;
 
-public class MainActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, NotifyListener/*, BLEMediator_tbd.LeScanListener, BluetoothAdapter.LeScanCallback */ {
+public class MainTabActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, NotifyListener/*, BLEMediator_tbd.LeScanListener, BluetoothAdapter.LeScanCallback */ {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -60,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tab_main);
 
         TextView toolbar = (TextView) findViewById(R.id.toolbar);
         toolbar.setText(R.string.main_activity_title);
@@ -135,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
 
     @Override
     protected void onDestroy() {
-        MiBandWrapper.getInstance(MainActivity.this).sendAction(MiBandWrapper.ACTION_STOP_SYNC);
+        MiBandWrapper.getInstance(MainTabActivity.this).sendAction(MiBandWrapper.ACTION_STOP_SYNC);
 
         super.onDestroy();
     }
@@ -166,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
 
             //miBand.getStepData();
             //miBand.setRealtimeStepsNotifyListener(MainActivity.this);
-            miBand.setDisconnectedListener(MainActivity.this);
+            miBand.setDisconnectedListener(MainTabActivity.this);
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -314,7 +309,8 @@ public class MainActivity extends AppCompatActivity implements StatusFragment.On
                 return StatusFragment.newInstance(1);
             }
 
-            return PageFragment.newInstance(position + 1);
+            return SlidingUpStatusFragment.newInstance(1);
+            //return PageFragment.newInstance(position + 1);
         }
 
         @Override

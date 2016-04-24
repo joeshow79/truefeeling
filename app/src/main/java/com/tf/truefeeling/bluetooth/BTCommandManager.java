@@ -155,11 +155,18 @@ public class BTCommandManager {
         try {
             this.currentCallback = callback;
             BluetoothGattCharacteristic chara = gatt.getService(Profile.UUID_SERVICE_MILI).getCharacteristic(uuid);
+
             if (null == chara) {
+                Log.e(TAG, "1");
+
                 return false;
             }
+            Log.e(TAG, "2");
+
             return this.gatt.readCharacteristic(chara);
         } catch (Throwable tr) {
+            Log.e(TAG, "3");
+
             Log.e(TAG, "readCharacteristic", tr);
             return false;
         }

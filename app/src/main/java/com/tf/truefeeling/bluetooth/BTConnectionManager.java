@@ -19,6 +19,7 @@ import android.util.Log;
 import com.tf.truefeeling.ActionCallback;
 import com.tf.truefeeling.AppUtils;
 import com.tf.truefeeling.model.BLEDeviceContent;
+import com.tf.truefeeling.model.MiBandData;
 import com.tf.truefeeling.model.Profile;
 import com.tf.truefeeling.model.UserInfo;
 
@@ -135,6 +136,8 @@ public class BTConnectionManager {
                 isConnecting = false;
                 return;
             }
+
+            Log.i(TAG, "trying to connect");
 
             if (!isConnecting && !adapter.isDiscovering()) {
 
@@ -284,9 +287,8 @@ public class BTConnectionManager {
         if (mAlreadyPaired) {
             Log.i(TAG, "tryPairedDevices, already paired!");
             BluetoothDevice mBluetoothMi = adapter.getRemoteDevice(mDeviceAddress);
-            mBluetoothMi.connectGatt(context, false, btleGattCallback).connect();
-
-            //mGatt.connect();
+            gatt = mBluetoothMi.connectGatt(context, false, btleGattCallback);
+            gatt.connect();
         }
 
         return mAlreadyPaired;
@@ -323,25 +325,28 @@ public class BTConnectionManager {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
 
-            Log.e(TAG, "onConnectionStateChange, status: " + status);
-            Log.e(TAG, "onConnectionStateChange, newState: " + newState);
+            Log.e(TAG, "onConnectionStateChange, status: " + status + " newState:" + newState);
 
             BTConnectionManager.this.gatt = gatt;
 
             if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
                 gatt.discoverServices();
             } else if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_DISCONNECTED) {
-                Log.e(TAG, "onConnectionStateChange disconnect: " + newState);
+//                Log.e(TAG, "onConnectionStateChange disconnect: " + newState);
                 //toggleNotifications(false);
                 //disconnect();
             } else if (status != BluetoothGatt.GATT_SUCCESS) {
-                Log.e(TAG, "onConnectionStateChange status: " + String.valueOf(status));
+//                Log.e(TAG, "onConnectionStateChange status: " + String.valueOf(status));
                 gatt.disconnect();
             }
 
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                isConnected = true;
+
+            }
             if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 isConnected = false;
-                if (io.disconnectedListener != null) {
+                if (io != null && io.disconnectedListener != null) {
                     io.disconnectedListener.onNotify(dummyData);
                 }
             }

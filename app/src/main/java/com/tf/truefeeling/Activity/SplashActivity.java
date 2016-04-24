@@ -116,6 +116,7 @@ public class SplashActivity extends AppCompatActivity {
 
         final Intent mainIntent = new Intent(this, MainActivity.class);
         final Intent loginIntent = new Intent(this,LoginActivity.class);
+        final Intent welcomeLoginIntent = new Intent(this,WelcomeLoginActivity.class);
 
         Timer timer = new Timer();
 
@@ -125,7 +126,9 @@ public class SplashActivity extends AppCompatActivity {
 
             public void run() {
                 if(AVUser.getCurrentUser()!=null){
-                       startActivity(mainIntent);
+                       //startActivity(mainIntent);
+                       startActivity(welcomeLoginIntent);
+
                 }
                 else{
                     startActivity(loginIntent);

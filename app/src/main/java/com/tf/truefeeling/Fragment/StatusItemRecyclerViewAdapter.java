@@ -73,6 +73,7 @@ public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusIt
         return mValues.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
@@ -95,7 +96,10 @@ public class StatusItemRecyclerViewAdapter extends RecyclerView.Adapter<StatusIt
     @Override
     public void update(Observable observable, Object data) {
         mValues.clear();
+
+        Log.d(TAG, "setting steps" + String.valueOf(MiBandData.getInstance().mSteps));
         mValues.add(new DummyItem("Step:", String.valueOf(MiBandData.getInstance().mSteps)));
+        notifyDataSetChanged();
 //        new Runnable() {
 //            @Override
 //            public void run() {
