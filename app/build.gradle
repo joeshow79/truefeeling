@@ -37,6 +37,10 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
@@ -67,4 +71,5 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 }

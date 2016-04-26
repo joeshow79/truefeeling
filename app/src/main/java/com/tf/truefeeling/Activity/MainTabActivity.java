@@ -305,7 +305,7 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
             if (0 == position) {
                 return BLEConnectionFragment.newInstance(1);
             }
-            if (1 == position) {
+            if (2 == position) {
                 return StatusFragment.newInstance(1);
             }
 

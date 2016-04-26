@@ -1,17 +1,16 @@
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoPanelHeight="68dp"
-    sothree:umanoShadowHeight="4dp"
-    sothree:umanoParallaxOffset="100dp"
     sothree:umanoDragView="@+id/dragView"
     sothree:umanoOverlay="true"
-    sothree:umanoScrollableView="@+id/list">
+    sothree:umanoPanelHeight="68dp"
+    sothree:umanoParallaxOffset="100dp"
+    sothree:umanoScrollableView="@+id/list"
+    sothree:umanoShadowHeight="4dp">
 
     <!-- MAIN CONTENT -->
     <FrameLayout
@@ -28,7 +27,7 @@
             android:focusable="false"
             android:focusableInTouchMode="true"
             android:textSize="16sp" /-->
-        <org.eazegraph.lib.charts.PieChart
+        <!--org.eazegraph.lib.charts.PieChart
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/piechart"
             android:layout_width="match_parent"
@@ -36,18 +35,22 @@
             android:padding="8dp"
             app:egLegendTextSize="18sp"
             app:egUsePieRotation="true"
-            app:egValueTextSize="36sp"/>
+            app:egValueTextSize="36sp"/-->
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/spread_pie_chart"
+        android:layout_width="match_parent"
+        android:layout_height="320dip" />
     </FrameLayout>
 
     <!-- SLIDING LAYOUT -->
     <LinearLayout
+        android:id="@+id/dragView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff"
-        android:orientation="vertical"
         android:clickable="true"
         android:focusable="false"
-        android:id="@+id/dragView">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,9 +62,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textSize="14sp"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
