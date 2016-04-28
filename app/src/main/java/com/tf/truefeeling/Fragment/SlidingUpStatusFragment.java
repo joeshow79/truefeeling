@@ -29,10 +29,14 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.tf.truefeeling.R;
 import com.tf.truefeeling.Fragment.dummy.StatusContent;
 import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
+import com.tf.truefeeling.custom.FingerData;
+import com.tf.truefeeling.custom.HandData;
 import com.tf.truefeeling.custom.MyMarkerView;
 import com.tf.truefeeling.custom.RealmDemoData;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -115,7 +119,7 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
             }
             recyclerView.setAdapter(new StatusItemRecyclerViewAdapter(StatusContent.ITEMS, mListener));
         }*/
-
+三
         writeToDB(5);
 
         mChart = (RadarChart) view.findViewById(R.id.radar_chart);
@@ -204,19 +208,32 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
 
     public void setData() {
 
-       RealmResults<RealmDemoData> result = mRealm.allObjects(RealmDemoData.class);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String today = df.format(new Date());
+
+        // RealmResults<FingerData> result = mRealm.allObjects(FingerData.class);
+        RealmResults<FingerData> result = mRealm.where(FingerData.class).equalTo("when",today).findAll();
 
         //RealmBarDataSet<RealmDemoData> set = new RealmBarDataSet<RealmDemoData>(result, "stackValues", "xIndex"); // normal entries
-        RealmRadarDataSet<RealmDemoData> set = new RealmRadarDataSet<RealmDemoData>(result, "value", "xIndex"); // stacked entries
-        set.setLabel("Realm RadarDataSet");
+        RealmRadarDataSet<FingerData> set = new RealmRadarDataSet<FingerData>(result, "planValue", "xIndex"); // stacked entries
+        set.setLabel("目标");
         set.setDrawFilled(true);
         set.setColor(ColorTemplate.rgb("#009688"));
         set.setFillColor(ColorTemplate.rgb("#009688"));
         set.setFillAlpha(130);
         set.setLineWidth(2f);
 
+        RealmRadarDataSet<FingerData> setPlan = new RealmRadarDataSet<FingerData>(result, "value", "xIndex"); // stacked entries
+        setPlan.setLabel("达成");
+        setPlan.setDrawFilled(true);
+        setPlan.setColor(ColorTemplate.rgb("#968800"));
+        setPlan.setFillColor(ColorTemplate.rgb("#968800"));
+        setPlan.setFillAlpha(130);
+        setPlan.setLineWidth(2f);
+
         ArrayList<IRadarDataSet> dataSets = new ArrayList<IRadarDataSet>();
         dataSets.add(set); // add the dataset
+        dataSets.add(setPlan); // add the dataset
 
         // create a data object with the dataset list
         RadarData data = new RadarData(mParties, dataSets);
@@ -235,19 +252,27 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
     }
 
     protected void writeToDB(int objectCount) {
-
         mRealm.beginTransaction();
 
-        mRealm.clear(RealmDemoData.class);
+        mRealm.clear(FingerData.class);
+        mRealm.commitTransaction();
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String today = df.format(new Date());
 
         for (int i = 0; i < objectCount; i++) {
+            mRealm.beginTransaction();
 
-            float value = 40f + (float) (Math.random() * 60f);
+            FingerData fingerData = mRealm.createObject(FingerData.class);
 
-            RealmDemoData d = new RealmDemoData(value, i, "" + i);
-            mRealm.copyToRealm(d);
+            int value = (int) (40f + (float) (Math.random() * 60f));
+            int planValue = (int) (40f + (float) (Math.random() * 60f));
+
+            fingerData.setWhen(today);
+            fingerData.setValue(value);
+            fingerData.setPlanValue(planValue);
+            fingerData.setxIndex(i);
+            mRealm.commitTransaction();
         }
-
-        mRealm.commitTransaction();
     }
 }
