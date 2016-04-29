@@ -13,36 +13,23 @@
     sothree:umanoShadowHeight="4dp">
 
     <!-- MAIN CONTENT -->
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <!--TextView
-            android:id="@+id/main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Main Content"
-            android:clickable="true"
-            android:focusable="false"
-            android:focusableInTouchMode="true"
-            android:textSize="16sp" /-->
-        <!--org.eazegraph.lib.charts.PieChart
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/piechart"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:padding="8dp"
-            app:egLegendTextSize="18sp"
-            app:egUsePieRotation="true"
-            app:egValueTextSize="36sp"/-->
-        <include layout="@layout/view_detail_chart_view_pager" />
-        <View android:background="@color/divide" android:layout_width="fill_parent" android:layout_height="@dimen/divider" />
+
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/divider"
+            android:background="@color/divide" />
 
         <com.github.mikephil.charting.charts.RadarChart
             android:id="@+id/radar_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </FrameLayout>
 
     <!-- SLIDING LAYOUT -->
@@ -55,13 +42,144 @@
         android:focusable="false"
         android:orientation="vertical">
 
+        <!--include layout="@layout/view_detail_chart_view_pager" /-->
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginTop="10.0dip">
+            <ImageView
+                android:id="@id/previous_day"
+                android:padding="5.0dip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_step_left_arrow"
+                android:tint="@color/colorPrimary"
+                android:paddingEnd="3.0dip" />
+            <TextView
+                android:textSize="10.699982sp"
+                android:layout_gravity="center_vertical"
+                android:id="@id/step_date"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@id/next_day"
+                android:padding="5.0dip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_step_right_arrow"
+                android:tint="@color/colorPrimary"
+                android:paddingStart="3.0dip" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="68dp"
+            android:layout_height="48dp"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/f1_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/f1_value"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/f2_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/f2_value"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/f3_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/f3_value"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/f4_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/f4_value"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/f5_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/f5_value"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

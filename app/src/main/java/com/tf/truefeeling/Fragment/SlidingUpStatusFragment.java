@@ -11,7 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.avos.avoscloud.AVUser;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -29,6 +32,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.tf.truefeeling.R;
 import com.tf.truefeeling.Fragment.dummy.StatusContent;
 import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
+import com.tf.truefeeling.Util.Log;
 import com.tf.truefeeling.custom.FingerData;
 import com.tf.truefeeling.custom.HandData;
 import com.tf.truefeeling.custom.MyMarkerView;
@@ -36,6 +40,7 @@ import com.tf.truefeeling.custom.RealmDemoData;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import io.realm.Realm;
@@ -59,6 +64,20 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
     private RadarChart mChart;
     private Typeface tf;
     protected Realm mRealm;
+    private String TAG = "SlidingUpStatusFragment";
+    private Calendar calendar;
+
+    private TextView valueDate;
+    private TextView f1Name;
+    private TextView f1Value;
+    private TextView f2Name;
+    private TextView f2Value;
+    private TextView f3Name;
+    private TextView f3Value;
+    private TextView f4Name;
+    private TextView f4Value;
+    private TextView f5Name;
+    private TextView f5Value;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -106,7 +125,20 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
         View view = inflater.inflate(R.layout.fragment_sliding_up_status, container, false);
         mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.5f);
-        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+
+        valueDate = (TextView) view.findViewById(R.id.step_date);
+        f1Name = (TextView) view.findViewById(R.id.f1_name);
+        f1Value = (TextView) view.findViewById(R.id.f1_value);
+        f2Name = (TextView) view.findViewById(R.id.f2_name);
+        f2Value = (TextView) view.findViewById(R.id.f2_value);
+        f3Name = (TextView) view.findViewById(R.id.f3_name);
+        f3Value = (TextView) view.findViewById(R.id.f3_value);
+        f4Name = (TextView) view.findViewById(R.id.f4_name);
+        f4Value = (TextView) view.findViewById(R.id.f4_value);
+        f5Name = (TextView) view.findViewById(R.id.f5_name);
+        f5Value = (TextView) view.findViewById(R.id.f5_value);
+        //mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+
 /*
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -119,13 +151,12 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
             }
             recyclerView.setAdapter(new StatusItemRecyclerViewAdapter(StatusContent.ITEMS, mListener));
         }*/
-三
+
         writeToDB(5);
 
+
         mChart = (RadarChart) view.findViewById(R.id.radar_chart);
-
         //tf = Typeface.createFromAsset(view.getAgetAssets(), "OpenSans-Regular.ttf");
-
         mChart.setDescription("");
         mChart.setNoDataTextDescription("You need to provide data for the chart.");
         // enable touch gestures
@@ -143,7 +174,12 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
         // set the marker to the chart
         mChart.setMarkerView(mv);
 
-        setData();
+        calendar = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        String today = df.format(calendar.getTime());
+
+        setData(today);
 
         mChart.animateXY(
                 1400, 1400,
@@ -165,6 +201,31 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
         l.setTypeface(tf);
         l.setXEntrySpace(7f);
         l.setYEntrySpace(5f);
+
+
+        ImageView preButton = (ImageView) view.findViewById(R.id.previous_day);
+        preButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
+                String today = df.format(calendar.getTime());
+                setData(today);
+                mChart.notifyDataSetChanged();
+            }
+        });
+
+        ImageView nextButton = (ImageView) view.findViewById(R.id.next_day);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                String today = df.format(calendar.getTime());
+                setData(today);
+                mChart.notifyDataSetChanged();
+            }
+        });
         return view;
     }
 
@@ -206,34 +267,47 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
             "大拇指", "食指", "中指", "无名指", "小指"
     };
 
-    public void setData() {
+    public void setData(String today) {
+        Log.d(TAG, "setData :" + today);
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String today = df.format(new Date());
+        valueDate.setText(today);
+        f1Value.setText("");
+        f2Value.setText("");
+        f3Value.setText("");
+        f4Value.setText("");
+        f5Value.setText("");
 
         // RealmResults<FingerData> result = mRealm.allObjects(FingerData.class);
-        RealmResults<FingerData> result = mRealm.where(FingerData.class).equalTo("when",today).findAll();
+        RealmResults<FingerData> result = mRealm.where(FingerData.class).equalTo("when", today).findAll();
+        result.sort("xIndex");
 
         //RealmBarDataSet<RealmDemoData> set = new RealmBarDataSet<RealmDemoData>(result, "stackValues", "xIndex"); // normal entries
-        RealmRadarDataSet<FingerData> set = new RealmRadarDataSet<FingerData>(result, "planValue", "xIndex"); // stacked entries
-        set.setLabel("目标");
+        RealmRadarDataSet<FingerData> planSet = new RealmRadarDataSet<FingerData>(result, "planValue", "xIndex"); // stacked entries
+        planSet.setLabel("目标");
+        planSet.setDrawFilled(true);
+        planSet.setColor(ColorTemplate.rgb("#009688"));
+        planSet.setFillColor(ColorTemplate.rgb("#009688"));
+        planSet.setFillAlpha(130);
+        planSet.setLineWidth(2f);
+
+        RealmRadarDataSet<FingerData> set = new RealmRadarDataSet<FingerData>(result, "value", "xIndex"); // stacked entries
+        Log.d(TAG, "set size :" + String.valueOf(set.getResults().size()));
+        for (int i = 0; i < set.getResults().size(); ++i) {
+            Log.d(TAG, "Entry when:" + set.getResults().get(i).getWhen());
+            Log.d(TAG, "Entry index:" + set.getResults().get(i).getxIndex());
+            Log.d(TAG, "Entry value:" + set.getResults().get(i).getValue());
+            Log.d(TAG, "Entry plan value:" + set.getResults().get(i).getPlanValue());
+        }
+        set.setLabel("达成");
         set.setDrawFilled(true);
-        set.setColor(ColorTemplate.rgb("#009688"));
-        set.setFillColor(ColorTemplate.rgb("#009688"));
+        set.setColor(ColorTemplate.rgb("#968800"));
+        set.setFillColor(ColorTemplate.rgb("#968800"));
         set.setFillAlpha(130);
         set.setLineWidth(2f);
 
-        RealmRadarDataSet<FingerData> setPlan = new RealmRadarDataSet<FingerData>(result, "value", "xIndex"); // stacked entries
-        setPlan.setLabel("达成");
-        setPlan.setDrawFilled(true);
-        setPlan.setColor(ColorTemplate.rgb("#968800"));
-        setPlan.setFillColor(ColorTemplate.rgb("#968800"));
-        setPlan.setFillAlpha(130);
-        setPlan.setLineWidth(2f);
-
         ArrayList<IRadarDataSet> dataSets = new ArrayList<IRadarDataSet>();
         dataSets.add(set); // add the dataset
-        dataSets.add(setPlan); // add the dataset
+        dataSets.add(planSet ); // add the dataset
 
         // create a data object with the dataset list
         RadarData data = new RadarData(mParties, dataSets);
@@ -242,6 +316,31 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
         // set data
         mChart.setData(data);
         mChart.animateY(1400);
+
+        for (FingerData fd : result) {
+            switch (fd.getxIndex()) {
+                case 1:
+                    f1Name.setText(mParties[0]);
+                    f1Value.setText(String.valueOf(fd.getValue()));
+                    break;
+                case 2:
+                    f2Name.setText(mParties[1]);
+                    f2Value.setText(String.valueOf(fd.getValue()));
+                    break;
+                case 3:
+                    f3Name.setText(mParties[2]);
+                    f3Value.setText(String.valueOf(fd.getValue()));
+                    break;
+                case 4:
+                    f4Name.setText(mParties[3]);
+                    f4Value.setText(String.valueOf(fd.getValue()));
+                    break;
+                case 5:
+                    f5Name.setText(mParties[4]);
+                    f5Value.setText(String.valueOf(fd.getValue()));
+                    break;
+            }
+        }
     }
 
     protected void styleData(ChartData data) {
@@ -257,6 +356,7 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
         mRealm.clear(FingerData.class);
         mRealm.commitTransaction();
 
+
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String today = df.format(new Date());
 
@@ -271,7 +371,42 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
             fingerData.setWhen(today);
             fingerData.setValue(value);
             fingerData.setPlanValue(planValue);
-            fingerData.setxIndex(i);
+            fingerData.setxIndex(i + 1);
+            mRealm.commitTransaction();
+        }
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        today = df.format(c.getTime());
+        for (int i = 0; i < objectCount; i++) {
+            mRealm.beginTransaction();
+
+            FingerData fingerData = mRealm.createObject(FingerData.class);
+
+            int value = (int) (40f + (float) (Math.random() * 60f));
+            int planValue = (int) (40f + (float) (Math.random() * 60f));
+
+            fingerData.setWhen(today);
+            fingerData.setValue(value);
+            fingerData.setPlanValue(planValue);
+            fingerData.setxIndex(i + 1);
+            mRealm.commitTransaction();
+        }
+
+        c.add(Calendar.DAY_OF_MONTH, -2);
+        today = df.format(c.getTime());
+        for (int i = 0; i < objectCount; i++) {
+            mRealm.beginTransaction();
+
+            FingerData fingerData = mRealm.createObject(FingerData.class);
+
+            int value = (int) (40f + (float) (Math.random() * 60f));
+            int planValue = (int) (40f + (float) (Math.random() * 60f));
+
+            fingerData.setWhen(today);
+            fingerData.setValue(value);
+            fingerData.setPlanValue(planValue);
+            fingerData.setxIndex(i + 1);
             mRealm.commitTransaction();
         }
     }
