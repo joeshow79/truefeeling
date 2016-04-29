@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import com.tf.truefeeling.ActionCallback;
 import com.tf.truefeeling.Fragment.BLEConnectionFragment;
+import com.tf.truefeeling.Fragment.ProfileFragment;
 import com.tf.truefeeling.Fragment.SlidingUpStatusFragment;
 import com.tf.truefeeling.Fragment.StatusFragment;
 import com.tf.truefeeling.Fragment.dummy.StatusContent;
@@ -33,7 +35,7 @@ import com.tf.truefeeling.bluetooth.MiBandWrapper;
 import com.tf.truefeeling.bluetooth.NotificationConstants;
 import com.tf.truefeeling.listener.NotifyListener;
 
-public class MainTabActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, NotifyListener/*, BLEMediator_tbd.LeScanListener, BluetoothAdapter.LeScanCallback */ {
+public class MainTabActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener,ProfileFragment.OnFragmentInteractionListener, NotifyListener/*, BLEMediator_tbd.LeScanListener, BluetoothAdapter.LeScanCallback */ {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -88,7 +90,7 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
             }
         }
 
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(1);
 
         miBand = MiBand.getInstance();
     }
@@ -244,6 +246,10 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
     }
 
     @Override
+    public void onFragmentInteraction(Uri uri){
+    }
+
+    @Override
     public void onListFragmentInteraction(BluetoothDevice item) {
         Log.d(TAG, "----------------------------------->");
         /*Intent intent = new Intent(getApplicationContext(), MiOverviewActivity_tbd.class);
@@ -306,7 +312,7 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
                 return BLEConnectionFragment.newInstance(1);
             }
             if (2 == position) {
-                return StatusFragment.newInstance(1);
+                return ProfileFragment.newInstance();
             }
 
             return SlidingUpStatusFragment.newInstance(1);

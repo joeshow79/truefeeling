@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:avatarview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/personinfo_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@id/person_info_header_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/person_info_head_height"
+        android:background="@color/personinfo_bg">
+
+        <RelativeLayout
+            android:id="@id/person_info_avatar_rl"
+            android:layout_width="@dimen/person_avatar_size"
+            android:layout_height="@dimen/person_avatar_size"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/person_avatar_margin_top">
+
+            <com.liangfeizc.avatarview.AvatarView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/avatar_selector"
+                avatarview:border_color="@android:color/white"
+                avatarview:border_width="10dp"
+                avatarview:shadow_color="@android:color/holo_red_dark"
+                avatarview:shadow_width="10dp" />
+
+            <ImageView
+                android:layout_width="@dimen/person_info_camera"
+                android:layout_height="@dimen/person_info_camera"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/person_info_camera" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@id/person_info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/person_info_avatar_rl"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10.0dip"
+            android:textColor="@color/black"
+            android:textSize="16.0sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1.0px"
+        android:layout_marginLeft="@dimen/person_info_item_margin"
+        android:layout_marginRight="@dimen/person_info_item_margin"
+        android:background="@color/black_20_percent" />
+
+    <ListView
+        android:id="@id/person_info_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="@color/transparency"
+        android:dividerHeight="0.0dip"
+        android:scrollbars="none" />
+</LinearLayout>

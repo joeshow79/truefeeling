@@ -62,7 +62,7 @@ public class BLEConnectionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bleconnection_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
+        /*if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
@@ -71,10 +71,10 @@ public class BLEConnectionFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            BLEConnectionRecyclerViewAdapter adapter=new BLEConnectionRecyclerViewAdapter(/*BLEDeviceContent.listItems,*/ mListener);
+            BLEConnectionRecyclerViewAdapter adapter=new BLEConnectionRecyclerViewAdapter(BLEDeviceContent.listItems, mListener);
 
             recyclerView.setAdapter(adapter);
-        }
+        }*/
         return view;
     }
 

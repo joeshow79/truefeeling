@@ -73,5 +73,5 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'io.realm:realm-android:0.87.5' // dependency for realm-database API (http://realm.io)
-
+    compile 'com.liangfeizc:avatarview:0.0.1@aar'
 }

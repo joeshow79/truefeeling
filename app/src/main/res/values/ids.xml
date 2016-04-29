@@ -11,6 +11,7 @@
     <item type="id" name="notification_jump" />
     <item type="id" name="scrollview" />
     <item type="id" name="webview" />
+    <item type="id" name="mine_device_name" />
     <item type="id" name="about_app_icon">false</item>
     <item type="id" name="app_name">false</item>
     <item type="id" name="app_version">false</item>

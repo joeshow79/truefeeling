@@ -1,13 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.tf.truefeeling.BLEConnectionFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".Fragment.BLEConnectionFragment"
-    tools:listitem="@layout/fragment_bleconnection" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:avatarview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:item="http://schemas.android.com/tools"
+    android:background="@color/personinfo_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_marginLeft="@dimen/mine_margin"
+        android:layout_marginRight="@dimen/mine_margin"
+        android:layout_weight="1.0"
+        android:orientation="vertical">
+
+        <include layout="@layout/home_divider" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="7.0dip"
+                android:layout_marginTop="@dimen/mine_margin"
+                android:gravity="left"
+                android:text="@string/mine_device"
+                android:textColor="@color/black_40_percent"
+                android:textSize="11.299988sp" />
+
+            <include layout="@layout/home_divider" />
+
+            <TextView
+                android:id="@id/mine_device_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="7.0dip"
+                android:layout_marginTop="@dimen/mine_margin"
+                android:gravity="left"
+                android:text="Device name"
+                android:textColor="@color/black_40_percent"
+                android:textSize="11.299988sp" />
+
+            <include
+                android:id="@id/item_miband_divider"
+                layout="@layout/home_divider"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@id/mine_add_device_bound"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/mine_add_device_bound_height">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:id="@id/mine_add_device_bound_btn"
+                        android:layout_width="@dimen/mine_add_device_btn_size"
+                        android:layout_height="@dimen/mine_add_device_btn_size"
+                        android:layout_centerVertical="true"
+                        android:background="@color/transparency"
+                        android:src="@drawable/btn_add_device" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/mine_add_device_margin"
+                        android:layout_toRightOf="@id/mine_add_device_bound_btn"
+                        android:text="@string/mine_add_more_device"
+                        android:textColor="@color/black_50_percent"
+                        android:textSize="12.699982sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

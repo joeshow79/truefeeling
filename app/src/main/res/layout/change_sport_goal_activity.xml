@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/change_sport_goal_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@id/personinfo_change_sport_goal_tip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.xiaomi.hm.health.widget.TipComponent
+            android:id="@id/change_sport_goal_tip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="@color/change_sport_goal_divide" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@id/bracelet_title_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/personinfo_change_sport_goal_tip"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingLeft="35.0dip"
+        android:paddingRight="35.0dip"
+        android:paddingTop="60.0dip"
+        android:text="@string/person_info_goal_info"
+        android:textColor="@color/main_ui_content_color"
+        android:textSize="@dimen/info_content_size" />
+
+    <kankan.wheel.widget.WheelView
+        android:id="@id/person_info_goal_picker"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/wheel_hight_large"
+        android:layout_below="@id/bracelet_title_info"
+        android:layout_marginLeft="@dimen/wheel_large_padding_side"
+        android:layout_marginRight="@dimen/wheel_large_padding_side"
+        android:layout_marginTop="@dimen/wheel_margin_t" />
+
+    <include
+        android:id="@id/personinfo_change_sport_goal_disable_btn"
+        layout="@layout/change_sport_goal_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/bottom_btn_maring_bottom" />
+
+    <LinearLayout
+        android:id="@id/personinfo_change_sport_goal_mask"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/personinfo_change_sport_goal_tip"
+        android:background="@color/change_sport_goal_mask"
+        android:orientation="horizontal" />
+</RelativeLayout>
