@@ -24,6 +24,7 @@ public class TFApplication extends Application {
     }
 
     private void setupLeanCloud() {
+        AVOSCloud.useAVCloudCN();
         AVOSCloud.initialize(this, "7K8Rg1kJkFjftzHtmCsPO4LP-gzGzoHsz", "P952rbIbhSRmUdHnW18Mt8kx");
     }
 }

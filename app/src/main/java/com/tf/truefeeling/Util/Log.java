@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Util;
+package com.tf.truefeeling.util;
 
 /**
  * Created by admin on 2016/4/12.

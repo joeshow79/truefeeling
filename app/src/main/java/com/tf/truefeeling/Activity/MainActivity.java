@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Activity;
+package com.tf.truefeeling.activity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -24,19 +24,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tf.truefeeling.ActionCallback;
-import com.tf.truefeeling.Fragment.BLEConnectionFragment;
+import com.tf.truefeeling.fragment.BLEConnectionFragment;
 import com.tf.truefeeling.MiBand;
-import com.tf.truefeeling.listener.RealtimeStepsNotifyListener;
 import com.tf.truefeeling.listener.NotifyListener;
-import com.tf.truefeeling.TFApplication;
 import com.tf.truefeeling.bluetooth.MiBandWrapper;
 import com.tf.truefeeling.bluetooth.NotificationConstants;
-import com.tf.truefeeling.Fragment.StatusFragment;
-import com.tf.truefeeling.Fragment.dummy.StatusContent;
+import com.tf.truefeeling.fragment.StatusFragment;
+import com.tf.truefeeling.fragment.dummy.StatusContent;
 import com.tf.truefeeling.R;
-import com.tf.truefeeling.Util.Log;
-import com.tf.truefeeling.model.BLEDeviceContent;
-import com.tf.truefeeling.model.MiBandData;
+import com.tf.truefeeling.util.Log;
 
 public class MainActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, NotifyListener/*, BLEMediator_tbd.LeScanListener, BluetoothAdapter.LeScanCallback */ {
 

@@ -75,6 +75,18 @@ public class BTConnectionManager {
 
                 Log.d(TAG, "Find Mi band.");
 
+                boolean bExist = false;
+                for (int i = 0; i < BLEDeviceContent.listItems.getAll().size(); ++i) {
+                    BluetoothDevice bd = BLEDeviceContent.listItems.get(i);
+                    if (device.getAddress().equals(bd.getAddress())) {
+                        bExist = true;
+                        break;
+                    }
+                }
+                if (false == bExist) {
+                    BLEDeviceContent.listItems.add(device);
+                }
+
                 stopDiscovery();
 
                 device.connectGatt(context, false, btleGattCallback);
@@ -486,6 +498,7 @@ public class BTConnectionManager {
         mHandler.removeMessages(0, stopRunnable);
         mHandler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_PERIOD);
         stopBTLEDiscovery();
+        BLEDeviceContent.listItems.clear();
         if (adapter.startLeScan(mLeScanCallback))
             Log.v(TAG, "starting scan");
     }

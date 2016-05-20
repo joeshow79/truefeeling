@@ -11,11 +11,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.xiaomi.hm.health.widget.TipComponent
+        <!--com.xiaomi.hm.health.widget.TipComponent
             android:id="@id/change_sport_goal_tip"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:clickable="true" />
+            android:clickable="true" /-->
 
         <View
             android:layout_width="fill_parent"

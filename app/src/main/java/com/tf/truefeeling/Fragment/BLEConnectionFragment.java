@@ -1,19 +1,18 @@
-package com.tf.truefeeling.Fragment;
+package com.tf.truefeeling.fragment;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tf.truefeeling.R;
 import com.tf.truefeeling.model.BLEDeviceContent;
-import com.tf.truefeeling.Util.Log;
+import com.tf.truefeeling.util.Log;
 
 /**
  * A fragment representing a list of Items.
@@ -29,6 +28,9 @@ public class BLEConnectionFragment extends Fragment {
     private int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
     private String TAG="BLEConnectionFragment";
+
+    private TextView tvName;
+    private ImageView ivBtn;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -60,7 +62,23 @@ public class BLEConnectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bleconnection_list, container, false);
+        tvName=(TextView)view.findViewById(R.id.mine_device_name);
+        ivBtn=(ImageView)view.findViewById(R.id.mine_add_device_bound_btn);
 
+        if(BLEDeviceContent.pairedDeviceAddr != null){
+            tvName.setText(BLEDeviceContent.pairedDeviceAddr);
+        }
+
+        ivBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick ");
+                if(null!= mListener){
+                    mListener.onListFragmentInteraction(null);
+                }
+            }
+
+        });
         // Set the adapter
         /*if (view instanceof RecyclerView) {
             Context context = view.getContext();

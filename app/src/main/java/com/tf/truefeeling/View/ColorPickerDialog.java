@@ -1,6 +1,5 @@
-package com.tf.truefeeling.View;
+package com.tf.truefeeling.view;
 
-import android.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;

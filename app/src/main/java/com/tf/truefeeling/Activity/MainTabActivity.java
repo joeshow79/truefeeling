@@ -1,12 +1,12 @@
-package com.tf.truefeeling.Activity;
+package com.tf.truefeeling.activity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,19 +24,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tf.truefeeling.ActionCallback;
-import com.tf.truefeeling.Fragment.BLEConnectionFragment;
-import com.tf.truefeeling.Fragment.ProfileFragment;
-import com.tf.truefeeling.Fragment.SlidingUpStatusFragment;
-import com.tf.truefeeling.Fragment.StatusFragment;
-import com.tf.truefeeling.Fragment.dummy.StatusContent;
+import com.tf.truefeeling.fragment.BLEConnectionFragment;
+import com.tf.truefeeling.fragment.ProfileFragment;
+import com.tf.truefeeling.fragment.SetGoalFragment;
+import com.tf.truefeeling.fragment.SlidingUpStatusFragment;
+import com.tf.truefeeling.fragment.StatusFragment;
+import com.tf.truefeeling.fragment.dummy.StatusContent;
 import com.tf.truefeeling.MiBand;
 import com.tf.truefeeling.R;
-import com.tf.truefeeling.Util.Log;
+import com.tf.truefeeling.util.AVService;
+import com.tf.truefeeling.util.Log;
 import com.tf.truefeeling.bluetooth.MiBandWrapper;
 import com.tf.truefeeling.bluetooth.NotificationConstants;
+import com.tf.truefeeling.custom.FingerData;
+import com.tf.truefeeling.custom.GoalData;
 import com.tf.truefeeling.listener.NotifyListener;
 
-public class MainTabActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener,ProfileFragment.OnFragmentInteractionListener, NotifyListener/*, BLEMediator_tbd.LeScanListener, BluetoothAdapter.LeScanCallback */ {
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
+public class MainTabActivity extends AppCompatActivity implements StatusFragment.OnListFragmentInteractionListener, BLEConnectionFragment.OnListFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, NotifyListener, SetGoalFragment.OnSetGoalInteractionListener/*, BLEMediator_tbd.LeScanListener, BluetoothAdapter.LeScanCallback */ {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -48,11 +62,14 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
     private MiBand miBand;
     private boolean isConnected = false;
     private int BT_REQUEST_CODE = 1001;
+    private SampleFragmentPagerAdapter pagerAdapter;
 
     private boolean mScanning;
-    private boolean mPause=false;   //JJ: If activity is paused, no need to reconnect BLE, reconnection will be resume once the activity resumed
+    private boolean mPause = false;   //JJ: If activity is paused, no need to reconnect BLE, reconnection will be resume once the activity resumed
     private static final long SCAN_PERIOD = 10000;
     private String TAG = "MainActivity";
+
+    protected Realm mRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +92,7 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-        SampleFragmentPagerAdapter pagerAdapter =
+        pagerAdapter =
                 new SampleFragmentPagerAdapter(getSupportFragmentManager(), this);
 
         viewPager.setAdapter(pagerAdapter);
@@ -93,6 +110,16 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
         viewPager.setCurrentItem(1);
 
         miBand = MiBand.getInstance();
+
+        RealmConfiguration config = new RealmConfiguration.Builder(this).name("tf.realm").build();
+        Realm.setDefaultConfiguration(config);
+        mRealm = Realm.getInstance(config);
+
+        //TODO: set default goal
+        writeDefaultGoalToDB(5);
+
+        //Test activity data
+        writeActivityToDB(5);
     }
 
     @Override
@@ -118,14 +145,14 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
         } else {
         }
 
-        mPause=false;
+        mPause = false;
     }
 
     @Override
     public void onPause() {
         disconnectToMiBand();
 
-        mPause=true;
+        mPause = true;
 
         super.onPause();
     }
@@ -246,7 +273,170 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri){
+    public void onFragmentInteraction(int index, int value) {
+        Log.d(TAG, "onFragmentInteraction, index: " + String.valueOf(index));
+        if (0 > index) {
+            new AlertDialog.Builder(this)
+                    .setTitle(
+                            this.getResources().getString(
+                                    R.string.dialog_message_title))
+                    .setMessage(
+                            this.getResources().getString(
+                                    R.string.action_logout_alert_message))
+                    .setNegativeButton(android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    dialog.dismiss();
+                                    logout();
+                                }
+                            })
+                    .setPositiveButton(android.R.string.cancel,
+                            new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+
+        } else {
+            SetGoalFragment dialog = SetGoalFragment.newInstance(index, value);
+            dialog.setCancelable(true);
+            dialog.show(getFragmentManager(), "Set goal");
+        }
+    }
+
+    private void logout() {
+        AVService.logout();
+        Intent loginIntent = new Intent(this, TFLoginActivity.class);
+        startActivity(loginIntent);
+        this.finish();
+    }
+
+    @Override
+    public void onSetGoalInteraction(int index, int value) {
+        //delete first
+        RealmQuery<GoalData> query = mRealm.where(GoalData.class);
+        Log.d(TAG, "onSetGoalInteraction, index: " + String.valueOf(index) + " , value: " + String.valueOf(value));
+
+        mRealm.beginTransaction();
+        query.equalTo("index", index).findAll().clear();
+        mRealm.commitTransaction();
+
+        //insert new goal record to db
+        mRealm.beginTransaction();
+        GoalData goalData = mRealm.createObject(GoalData.class);
+        goalData.setIndex(index);
+        goalData.setValue(value);
+        mRealm.commitTransaction();
+    }
+
+    //For the initial setting, there should be no default goal set
+    //set the initial goal setting in db
+    protected void writeDefaultGoalToDB(int objectCount) {
+        RealmQuery<GoalData> query = mRealm.where(GoalData.class);
+        RealmResults<GoalData> result = query.findAll();
+        result.sort("index");
+
+        //sanity checking
+        boolean sanity = true;
+        if (result.size() != objectCount) {
+            sanity = false;
+        } else {
+            for (int i = 0; i < result.size(); ++i) {
+                if (result.get(i).getIndex() != (i + 1)) {
+                    sanity = false;
+                    break;
+                } else {
+                    if (result.get(i).getValue() < 0) {
+                        sanity = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //sanity checking failed, then re-create the db class again
+        if (false == sanity) {
+            mRealm.beginTransaction();
+            mRealm.clear(GoalData.class);
+            mRealm.commitTransaction();
+
+            for (int i = 0; i < objectCount; i++) {
+                mRealm.beginTransaction();
+
+                GoalData goalData = mRealm.createObject(GoalData.class);
+
+                //TODO; appropriate value
+                goalData.setValue(800);
+                goalData.setIndex(i + 1);
+                mRealm.commitTransaction();
+            }
+        }
+
+        //if true== sanity, do nothing
+    }
+
+    protected void writeActivityToDB(int objectCount) {
+        mRealm.beginTransaction();
+        mRealm.clear(FingerData.class);
+        mRealm.commitTransaction();
+
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String today = df.format(new Date());
+
+        for (int i = 0; i < objectCount; i++) {
+            mRealm.beginTransaction();
+
+            FingerData fingerData = mRealm.createObject(FingerData.class);
+
+            int value = (int) (40f + (float) (Math.random() * 60f));
+            int planValue = (int) (40f + (float) (Math.random() * 60f));
+
+            fingerData.setWhen(today);
+            fingerData.setValue(value);
+            fingerData.setPlanValue(planValue);
+            fingerData.setxIndex(i + 1);
+            mRealm.commitTransaction();
+        }
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        today = df.format(c.getTime());
+        for (int i = 0; i < objectCount; i++) {
+            mRealm.beginTransaction();
+
+            FingerData fingerData = mRealm.createObject(FingerData.class);
+
+            int value = (int) (40f + (float) (Math.random() * 60f));
+            int planValue = (int) (40f + (float) (Math.random() * 60f));
+
+            fingerData.setWhen(today);
+            fingerData.setValue(value);
+            fingerData.setPlanValue(planValue);
+            fingerData.setxIndex(i + 1);
+            mRealm.commitTransaction();
+        }
+
+        c.add(Calendar.DAY_OF_MONTH, -2);
+        today = df.format(c.getTime());
+        for (int i = 0; i < objectCount; i++) {
+            mRealm.beginTransaction();
+
+            FingerData fingerData = mRealm.createObject(FingerData.class);
+
+            int value = (int) (40f + (float) (Math.random() * 60f));
+            int planValue = (int) (40f + (float) (Math.random() * 60f));
+
+            fingerData.setWhen(today);
+            fingerData.setValue(value);
+            fingerData.setPlanValue(planValue);
+            fingerData.setxIndex(i + 1);
+            mRealm.commitTransaction();
+        }
     }
 
     @Override
@@ -257,16 +447,21 @@ public class MainTabActivity extends AppCompatActivity implements StatusFragment
         startActivity(intent);*/
 
         //BLEMediator_tbd.getInstance().connectGATT(item.getAddress());
+        if (null == item) {
+            Intent intent = new Intent(getApplicationContext(), BindDeviceActivity.class);
+            startActivity(intent);
+        }
 
         if (!miBand.isConnected()) {
             miBand.connect(item.getAddress(), myConnectionCallback);
         }
     }
 
+
     @Override
     public void onNotify(byte[] data) {
         Log.d(TAG, "onNotify: TODO to reconnect");
-        if(!mPause){
+        if (!mPause) {
             //JJ, TODO
             //connectToMiBand();
         }

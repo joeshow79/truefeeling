@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="icon_tag_id" type="id" />
+    <item type="id" name="sign_out">false</item>
+
     <item type="id" name="care_button_label" />
     <item type="id" name="childId" />
     <item type="id" name="custom_action_bar_menu" />
@@ -12,6 +15,9 @@
     <item type="id" name="scrollview" />
     <item type="id" name="webview" />
     <item type="id" name="mine_device_name" />
+    <item type="id" name="new_device_name" />
+    <item type="id" name="new_device_name2" />
+    <item type="id" name="new_device_name3" />
     <item type="id" name="about_app_icon">false</item>
     <item type="id" name="app_name">false</item>
     <item type="id" name="app_version">false</item>
@@ -627,9 +633,21 @@
     <item type="id" name="message">false</item>
     <item type="id" name="link">false</item>
     <item type="id" name="dlg_empty_area_btn">false</item>
-    <item type="id" name="person_info_item_key">false</item>
-    <item type="id" name="person_info_item_img">false</item>
-    <item type="id" name="person_info_item_value">false</item>
+    <item type="id" name="finger_info_item_key_f1">false</item>
+    <item type="id" name="finger_info_item_img_f1">false</item>
+    <item type="id" name="finger_info_item_value_f1">false</item>
+    <item type="id" name="finger_info_item_key_f2">false</item>
+    <item type="id" name="finger_info_item_img_f2">false</item>
+    <item type="id" name="finger_info_item_value_f2">false</item>
+    <item type="id" name="finger_info_item_key_f3">false</item>
+    <item type="id" name="finger_info_item_img_f3">false</item>
+    <item type="id" name="finger_info_item_value_f3">false</item>
+    <item type="id" name="finger_info_item_key_f4">false</item>
+    <item type="id" name="finger_info_item_img_f4">false</item>
+    <item type="id" name="finger_info_item_value_f4">false</item>
+    <item type="id" name="finger_info_item_key_f5">false</item>
+    <item type="id" name="finger_info_item_img_f5">false</item>
+    <item type="id" name="finger_info_item_value_f5">false</item>
     <item type="id" name="member_icon">false</item>
     <item type="id" name="member_name">false</item>
     <item type="id" name="member_content">false</item>

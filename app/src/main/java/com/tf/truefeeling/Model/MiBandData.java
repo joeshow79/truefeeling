@@ -2,8 +2,7 @@ package com.tf.truefeeling.model;
 
 import java.util.Observable;
 
-import com.tf.truefeeling.MiBand;
-import com.tf.truefeeling.Util.Log;
+import com.tf.truefeeling.util.Log;
 import com.tf.truefeeling.listener.RealtimeStepsNotifyListener;
 
 

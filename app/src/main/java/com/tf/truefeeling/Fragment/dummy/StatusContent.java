@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Fragment.dummy;
+package com.tf.truefeeling.fragment.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

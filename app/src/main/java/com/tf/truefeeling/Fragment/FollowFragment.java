@@ -1,11 +1,8 @@
-package com.tf.truefeeling.Fragment;
+package com.tf.truefeeling.fragment;
 
 
 import android.app.Application;
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,13 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tf.truefeeling.R;
-
-import java.util.ArrayList;
 
 public class FollowFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
         AdapterView.OnItemClickListener {

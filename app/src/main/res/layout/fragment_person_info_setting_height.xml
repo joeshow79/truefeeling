@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/dialog_empty_area" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/main_ui_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/mili_margin"
+                android:layout_marginTop="25.0dip"
+                android:gravity="center"
+                android:text="@string/modify_height"
+                android:textColor="@color/main_ui_content_color"
+                android:textSize="@dimen/info_content_size" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/wheel_hight"
+                android:layout_marginTop="4.0dip">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/wheel_hight"
+                    android:background="@drawable/bg_rect"
+                    android:minHeight="@dimen/item_height">
+
+                    <kankan.wheel.widget.WheelView
+                        android:id="@id/info_height_foot_wheel"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:visibility="gone" />
+
+                    <View
+                        android:id="@id/wheel_split_line"
+                        android:layout_width="@dimen/round_bg_stroke"
+                        android:layout_height="fill_parent"
+                        android:background="@color/item_stroke"
+                        android:visibility="gone" />
+
+                    <kankan.wheel.widget.WheelView
+                        android:id="@id/info_height_wheel"
+                        android:layout_width="0.0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0" />
+                </LinearLayout>
+
+                <include layout="@layout/wheel_left_band" />
+            </RelativeLayout>
+        </LinearLayout>
+        <!--com.tf.truefeeling.view.CusSetMonitorDistanceBar
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/btn_bootom_bar"
+            android:layout_width="fill_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="8.0dip" custom:left_text="@string/cancel"
+            custom:left_text_color="@color/button_cancel_color" custom:right_text="@string/confirm"
+            custom:right_text_color="@color/button_confirm_color" /-->
+    </LinearLayout>
+</LinearLayout>

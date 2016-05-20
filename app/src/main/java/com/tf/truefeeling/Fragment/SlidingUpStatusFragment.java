@@ -1,47 +1,37 @@
-package com.tf.truefeeling.Fragment;
+package com.tf.truefeeling.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVUser;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.RadarData;
-import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.realm.implementation.RealmRadarDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.tf.truefeeling.R;
-import com.tf.truefeeling.Fragment.dummy.StatusContent;
-import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
-import com.tf.truefeeling.Util.Log;
+import com.tf.truefeeling.fragment.dummy.StatusContent.DummyItem;
+import com.tf.truefeeling.util.Log;
 import com.tf.truefeeling.custom.FingerData;
-import com.tf.truefeeling.custom.HandData;
 import com.tf.truefeeling.custom.MyMarkerView;
-import com.tf.truefeeling.custom.RealmDemoData;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -117,7 +107,7 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
                 .name("tf.realm")
                 .build();
 
-        Realm.deleteRealm(config);
+        //Realm.deleteRealm(config);
 
         Realm.setDefaultConfiguration(config);
         mRealm = Realm.getInstance(config);
@@ -151,9 +141,6 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
             }
             recyclerView.setAdapter(new StatusItemRecyclerViewAdapter(StatusContent.ITEMS, mListener));
         }*/
-
-        writeToDB(5);
-
 
         mChart = (RadarChart) view.findViewById(R.id.radar_chart);
         //tf = Typeface.createFromAsset(view.getAgetAssets(), "OpenSans-Regular.ttf");
@@ -350,64 +337,4 @@ public class SlidingUpStatusFragment extends Fragment/*implements Observer */ {
         data.setValueFormatter(new PercentFormatter());
     }
 
-    protected void writeToDB(int objectCount) {
-        mRealm.beginTransaction();
-
-        mRealm.clear(FingerData.class);
-        mRealm.commitTransaction();
-
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String today = df.format(new Date());
-
-        for (int i = 0; i < objectCount; i++) {
-            mRealm.beginTransaction();
-
-            FingerData fingerData = mRealm.createObject(FingerData.class);
-
-            int value = (int) (40f + (float) (Math.random() * 60f));
-            int planValue = (int) (40f + (float) (Math.random() * 60f));
-
-            fingerData.setWhen(today);
-            fingerData.setValue(value);
-            fingerData.setPlanValue(planValue);
-            fingerData.setxIndex(i + 1);
-            mRealm.commitTransaction();
-        }
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_MONTH, 1);
-        today = df.format(c.getTime());
-        for (int i = 0; i < objectCount; i++) {
-            mRealm.beginTransaction();
-
-            FingerData fingerData = mRealm.createObject(FingerData.class);
-
-            int value = (int) (40f + (float) (Math.random() * 60f));
-            int planValue = (int) (40f + (float) (Math.random() * 60f));
-
-            fingerData.setWhen(today);
-            fingerData.setValue(value);
-            fingerData.setPlanValue(planValue);
-            fingerData.setxIndex(i + 1);
-            mRealm.commitTransaction();
-        }
-
-        c.add(Calendar.DAY_OF_MONTH, -2);
-        today = df.format(c.getTime());
-        for (int i = 0; i < objectCount; i++) {
-            mRealm.beginTransaction();
-
-            FingerData fingerData = mRealm.createObject(FingerData.class);
-
-            int value = (int) (40f + (float) (Math.random() * 60f));
-            int planValue = (int) (40f + (float) (Math.random() * 60f));
-
-            fingerData.setWhen(today);
-            fingerData.setValue(value);
-            fingerData.setPlanValue(planValue);
-            fingerData.setxIndex(i + 1);
-            mRealm.commitTransaction();
-        }
-    }
 }

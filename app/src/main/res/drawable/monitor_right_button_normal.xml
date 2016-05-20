@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 定义按下时的模样 -->
+    <item android:state_pressed="true">
+        <shape>
+            <!-- 设置填充颜色，就是button按下时的颜色 -->
+            <solid android:color="@color/item_bg_pressed" />
+            <!-- 设置边界线的宽度和颜色，就是button轮廓线 -->
+            <stroke android:width="@dimen/round_bg_stroke" android:color="@color/item_stroke" />
+            <!-- 左上角和左下角以5dip为半径画圆弧，不再是直棱角 -->
+            <corners android:bottomRightRadius="5dip" android:topRightRadius="5dip" />
+        </shape>
+    </item>
+
+    <!-- 定义没有按时的模样 -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/white" />
+            <stroke android:width="@dimen/round_bg_stroke" android:color="@color/item_stroke" />
+            <corners android:bottomRightRadius="5dip" android:topRightRadius="5dip" />
+        </shape>
+    </item>
+</selector>

@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Activity;
+package com.tf.truefeeling.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

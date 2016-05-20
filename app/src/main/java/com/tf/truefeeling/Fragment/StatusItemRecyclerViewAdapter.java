@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Fragment;
+package com.tf.truefeeling.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,15 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tf.truefeeling.Fragment.StatusFragment.OnListFragmentInteractionListener;
-import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
+import com.tf.truefeeling.fragment.StatusFragment.OnListFragmentInteractionListener;
+import com.tf.truefeeling.fragment.dummy.StatusContent.DummyItem;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.tf.truefeeling.R;
-import com.tf.truefeeling.Util.Log;
+import com.tf.truefeeling.util.Log;
 import com.tf.truefeeling.model.MiBandData;
 
 

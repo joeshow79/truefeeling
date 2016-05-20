@@ -14,6 +14,11 @@
         completions."
     </string>
     <string name="title_activity_ref_login">Sign in</string>
+    <string name="finger1_name">大拇指</string>
+    <string name="finger2_name">食指</string>
+    <string name="finger3_name">中指</string>
+    <string name="finger4_name">无名指</string>
+    <string name="finger5_name">小指</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -403,6 +408,7 @@ firmly on the center of the scale."</string>
     <string name="record_weight">Add weight</string>
     <string name="red">Red</string>
     <string name="register">Sign up</string>
+    <string name="signout">Sign out</string>
     <string name="reset_weight_goal">Reset goal</string>
     <string name="retry">Try again</string>
     <string name="right_hand">Right hand</string>
@@ -807,8 +813,8 @@ Update anyway?"</string>
     <string name="bind_mili_not_shake">"My band didn't vibrate"</string>
     <string name="bind_mili_not_shake_help">Keep your band away from other bands when searching</string>
     <string name="bind_mili_quit">Not now</string>
-    <string name="bind_mili_search_tips">Keep the band close to your phone</string>
-    <string name="bind_mili_search_title">Searching for band…</string>
+    <string name="bind_mili_search_tips">Keep the device close to your phone</string>
+    <string name="bind_mili_search_title">Searching for device…</string>
     <string name="bind_qq_title">Add QQ</string>
     <string name="bind_shoes_capture_tips">Scan the QR code on Huami sensor</string>
     <string name="bind_shoes_capture_title">Pair shoes</string>
@@ -1101,7 +1107,7 @@ measurement range (%s)"</string>
     <string name="mine_ave_totaldistance_british">Total mi</string>
     <string name="mine_device">My devices</string>
     <string name="mine_distance_unit">" km"</string>
-    <string name="mine_goal_setting">Set goal</string>
+    <string name="mine_goal_setting">"   Set goal"</string>
     <string name="mine_item_feedback">Feedback</string>
     <string name="mine_item_friends">Friends</string>
     <string name="mine_item_settings">Settings</string>
@@ -1481,5 +1487,61 @@ before stepping off the scale."</string>
     <string name="running_today_null" />
     <string name="running_year_null" />
     <string name="title_activity_welcome_login">WelcomeLoginActivity</string>
+
+    <string name="title_activity_bind_device">BindDeviceActivity</string>
     <!-- from mib end -->
+    <!--TODO-->
+
+    <string name="action_logout">更换帐号</string>
+    <string name="action_about_app">关于与建议</string>
+    <string name="dialog_OK">确定</string>
+    <string name="dialog_Cancel">取消</string>
+    <string name="dialog_error_title">错误</string>
+    <string name="dialog_message_title">提示</string>
+    <string name="dialog_message_success">成功</string>
+    <string name="dialog_text_wait">请等待</string>
+
+    <string name="login_input_user_name">请输入名字</string>
+    <string name="login_input_user_password">请输入密码</string>
+    <string name="login_button_login">登录</string>
+    <string name="login_button_register">注册</string>
+    <string name="login_button_forget_password">忘记用户名或密码？</string>
+    <string name="error_login_error">登陆失败，请确认网络和用户名密码后重试</string>
+
+    <string name="forget_password_find_password_button">发送邮件</string>
+    <string name="forget_password_send_email">已发送邮件</string>
+    <string name="forget_password_email_error">邮件发送错误，请确认您的邮件地址</string>
+
+    <string name="register_input_user_password_again">请再次输入密码</string>
+    <string name="register_input_user_email">请输入E-mail地址</string>
+    <string name="error_register_password_not_equals">两次输入密码不一致，请重新输入</string>
+    <string name="error_register_password_null">密码不可为空</string>
+    <string name="error_register_user_name_null">用户名不可空</string>
+    <string name="error_register_email_address_null">E-mail地址不可空</string>
+    <string name="error_register_user_name_repeat">用户名已被注册，请重新填写</string>
+    <string name="error_register_email_repeat">邮箱已被注册，请更换邮箱</string>
+    <string name="success_register_success">注册成功</string>
+
+    <string name="main_view_person_title">我的成就</string>
+    <string name="main_view_anytime_title">正在做</string>
+
+    <string name="action_logout_alert_message">确定更换账号么？之前保留的账号信息将被删除。</string>
+    <string name="action_about_app_text">关于作者:\n\thi，大家好，我是“孤独的猫咪神”。\n\t我的微博是:weibo.com/maomishen\n\t感谢您使用此APP。欢迎对本APP提出您宝贵的意见和建议。</string>
+    <string name="action_about_app_doing_list_title">我希望在“正在做”中，加入如下的事情:\n我要提意见:</string>
+    <string name="action_about_app_submit_doing">提交</string>
+    <string name="action_about_app_submit_doing_hint">输入意见或希望添加在“正在做”中的内容。</string>
+    <string name="action_about_app_submit_message_success">感谢您的提交。祝您生活愉快。</string>
+    <string name="action_about_app_submit_message_error">非常抱歉，提交出错。</string>
+
+    <string name="person_register_time">注册时间:{0}</string>
+    <string name="person_achievement_list_null">暂无成就</string>
+
+    <string name="doing_list_wait_loading">正在加载</string>
+    <string name="doing_list_error_loading">加载错误，请检查网络</string>
+
+    <string name="doing_detail_loading">努力查询中！</string>
+    <string name="doing_detail_same_time_title">与您同时在{0}的人有</string>
+    <string name="doing_detail_person">人</string>
+    <string name="doing_detail_get_achievement_title">本次获得的成就</string>
+    <string name="doing_detail_achievement_null">没有获得成就T.T</string>
 </resources>

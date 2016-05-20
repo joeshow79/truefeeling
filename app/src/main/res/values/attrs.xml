@@ -9,4 +9,13 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="CusSetMonitorDistanceBar">
+        <attr name="leftText" format="string" />
+        <attr name="leftTextColor" format="string" />
+        <attr name="middleText" format="string" />
+        <attr name="middleTextColor" format="string" />
+        <attr name="rightTextColor" format="string" />
+        <attr name="rightText" format="string" />
+        <attr name="show_my_style" format="string" />
+    </declare-styleable>
 </resources>

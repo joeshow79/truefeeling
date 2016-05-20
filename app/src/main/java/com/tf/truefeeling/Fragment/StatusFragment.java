@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Fragment;
+package com.tf.truefeeling.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.tf.truefeeling.R;
-import com.tf.truefeeling.Fragment.dummy.StatusContent;
-import com.tf.truefeeling.Fragment.dummy.StatusContent.DummyItem;
+import com.tf.truefeeling.fragment.dummy.StatusContent;
+import com.tf.truefeeling.fragment.dummy.StatusContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.

@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Activity;
+package com.tf.truefeeling.activity;
 
 import android.app.ListActivity;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Fragment;
+package com.tf.truefeeling.fragment;
 
 import android.support.v4.app.Fragment;
 import android.widget.TextView;

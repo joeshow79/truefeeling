@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Fragment;
+package com.tf.truefeeling.fragment;
 
 import android.bluetooth.BluetoothDevice;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tf.truefeeling.Fragment.BLEConnectionFragment.OnListFragmentInteractionListener;
+import com.tf.truefeeling.fragment.BLEConnectionFragment.OnListFragmentInteractionListener;
 import com.tf.truefeeling.model.BLEDeviceContent;
 import com.tf.truefeeling.R;
 

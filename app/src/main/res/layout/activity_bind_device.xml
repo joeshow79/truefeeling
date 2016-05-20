@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/device_bind_rl"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/device_mili_bg">
+
+    <TextView
+        android:id="@id/bind_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50.0dip"
+        android:gravity="center"
+        android:text="@string/bind_mili_search_title"
+        android:textColor="#e6ffffff"
+        android:textSize="26.699982sp" />
+
+    <TextView
+        android:id="@id/bind_tips"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bind_title"
+        android:layout_marginTop="13.399994dip"
+        android:gravity="center"
+        android:text="@string/bind_mili_search_tips"
+        android:textColor="#8cffffff"
+        android:textSize="11.399994sp" />
+
+    <RelativeLayout
+        android:id="@id/bind_area"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bind_tips"
+        android:layout_marginTop="73.399994dip">
+
+        <ProgressBar
+            android:id="@+id/bind_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <!--RelativeLayout
+            android:id="@id/bind_weight_rl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+            <com.xiaomi.hm.health.customization.chart.typeface.TypefaceTextView
+                android:id="@id/bind_weight_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="din-med"
+                android:text="000.0"
+                android:textColor="#ccffffff"
+                android:textSize="60.0sp" />
+
+            <TextView
+                android:id="@id/bind_weight_value_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/bind_weight_value"
+                android:layout_toRightOf="@id/bind_weight_value"
+                android:textColor="#99ffffff"
+                android:textSize="13.399994sp" />
+        </RelativeLayout-->
+
+        <TextView
+            android:id="@id/new_device_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="7.0dip"
+            android:layout_marginTop="@dimen/mine_margin"
+            android:gravity="left"
+            android:text="Device name"
+            android:textColor="@color/black_40_percent"
+            android:textSize="11.299988sp" />
+        <TextView
+            android:id="@id/new_device_name2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="7.0dip"
+            android:layout_marginTop="@dimen/mine_margin"
+            android:gravity="left"
+            android:text=""
+            android:textColor="@color/black_40_percent"
+            android:textSize="11.299988sp" />
+        <TextView
+            android:id="@id/new_device_name3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="7.0dip"
+            android:layout_marginTop="@dimen/mine_margin"
+            android:gravity="left"
+            android:text=""
+            android:textColor="@color/black_40_percent"
+            android:textSize="11.299988sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@id/bind_quit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dip"
+        android:clickable="true"
+        android:drawableRight="@drawable/right_arrow_icon"
+        android:text="@string/bind_mili_quit"
+        android:textColor="#66ffffff"
+        android:textSize="11.399994sp" />
+</RelativeLayout>

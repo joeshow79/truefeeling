@@ -1,4 +1,4 @@
-package com.tf.truefeeling.Activity;
+package com.tf.truefeeling.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_tbd);
         // Set up the login form.
         mAccountView = (AutoCompleteTextView) findViewById(R.id.account);
         //jj:populateAutoComplete();
